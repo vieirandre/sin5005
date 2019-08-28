@@ -1,3 +1,8 @@
 language: ruby
 rvm:
  - 2.6.3
+services:
+ - postgresql
+before_install:
+ - psql -c 'create database myapp_test;' -U postgres
+ - cp config/database.yml.travis config/database.yml
