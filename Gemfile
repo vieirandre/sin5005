@@ -66,3 +66,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #Materialize CSS
 gem 'materialize-sass', '~> 1.0.0'
+
+#Nokogiri
+gem 'nokogiri', '~> 1.8', '>= 1.8.1'
