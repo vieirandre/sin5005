@@ -1,5 +1,7 @@
 <div class="main">
-	<h3>Segue a lista de rendimentos</h3>
+	<% if(params.has_key?(:codigo)) %>
+	<h3>Rendimentos do ativo <%= params[:codigo] %></h3>
+	<% end %>
 	<% if (@ngiri.kind_of?(Array)) %>
 	<table>
 		<% @ngiri.each do |item| %>
@@ -9,6 +11,6 @@
 		<% end %>
 	</table>
 	<% else %>
-	<%= @ngiri%>
+	<h5><%= @ngiri%></h5>
 	<% end %>
 </div>
