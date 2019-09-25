@@ -1,0 +1,2 @@
+class Fundo < ApplicationRecord
+end
