@@ -1,13 +1,14 @@
 <div class="main">
 	<h3>Segue a lista de rendimentos</h3>
 	<% if (@ngiri.kind_of?(Array)) %>
-	<ul>
+	<table>
 		<% @ngiri.each do |item| %>
-		<li><%= item %></li>
+		<tr>
+			<td><%= item %></td>
+		</tr>
 		<% end %>
-	</ul>
-		<% else %>
-		<%= @ngiri%>
-		<% end %>
-	</ul>
+	</table>
+	<% else %>
+	<%= @ngiri%>
+	<% end %>
 </div>
