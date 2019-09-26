@@ -28,19 +28,19 @@ class ScrapFiiController < ApplicationController
 			doc.css('.entry-content ul li').each do |link|
 				numeroDeNoticias = numeroDeNoticias + 1
 				if link.content.include? "Informou distribuição de:"
-					regexMonetario = /(([0-9]*),([0-9]*))/i
+					regexMonetario = /(((([0-9]*)\.)*)?([0-9]*),([0-9]*))/i
 					regexData = /(([0-9]*)\/([0-9]*)\/([0-9]*))/i
 
-					regexRendimento = /(Rendimento no valor de R\$ ([0-9]*),([0-9]*))/i
+					regexRendimento = /(Rendimento(\s)*no(\s)*valor(\s)*de(\s)*R\$(\s)*(((([0-9]*)\.)*)?([0-9]*),([0-9]*)))/i
 					rendimento = pegarValorComRegex(regexRendimento, regexMonetario, link.content)
 
-					regexDiaDaDistribuicao = /(por cota no dia ([0-9]*)\/([0-9]*)\/([0-9]*))/i
+					regexDiaDaDistribuicao = /(por(\s)*cota(\s)*no(\s)*dia(\s)*([0-9]*)\/([0-9]*)\/([0-9]*))/i
 					diaDaDistribuicao = pegarValorComRegex(regexDiaDaDistribuicao, regexData, link.content)
 
-					regexValorAtivoFechamento = /((\s)*Fechamento\:(\s)*R\$(\s)*([0-9]*),([0-9]*))/i
+					regexValorAtivoFechamento = /(Fechamento\:(\s)*R\$(\s)*(((([0-9]*)\.)*)?([0-9]*),([0-9]*)))/i
 					valorAtivoFechamento = pegarValorComRegex(regexValorAtivoFechamento, regexMonetario, link.content)
 
-					regexDataBaseFechamento = /(Data base: ([0-9]*)\/([0-9]*)\/([0-9]*))/i
+					regexDataBaseFechamento = /(Data(\s)*base:(\s)*([0-9]*)\/([0-9]*)\/([0-9]*))/i
 					dataBaseFechamento = pegarValorComRegex(regexDataBaseFechamento, regexData, link.content)
 					
 					# puts "Rendimento: " + rendimento
