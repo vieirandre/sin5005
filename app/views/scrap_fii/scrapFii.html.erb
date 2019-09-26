@@ -3,7 +3,7 @@
 	<h3 class="center-align">Rendimentos do ativo <%= params[:codigo] %></h3>
 	<% end %>
 	<% if (@ngiri.kind_of?(Array)) %>
-	<table class="centered">
+	<table id="tabelaRendimentosAtivo" class="centered">
 		<tr>
 			<th>Dia da distribuição</th>
 			<th>Rendimento</th>
@@ -11,11 +11,11 @@
 			<th>Data base do fechamento</th>
 		</tr>
 		<% @ngiri.each do |item| %>
-		<tr>
-			<td><%= item['diaDaDistribuicao'] %></td>
-			<td>R$<%= item['rendimento'] %></td>
-			<td>R$<%= item['valorAtivoFechamento'] %></td>
-			<td><%= item['dataBaseFechamento'] %></td>
+		<tr class="avisoRendimento dia_<%= item['diaDaDistribuicao'].gsub!('/','-') %>">
+			<td class="diaDaDistribuicao"><%= item['diaDaDistribuicao'] %></td>
+			<td class="rendimento">R$<%= item['rendimento'] %></td>
+			<td class="valorAtivoFechamento">R$<%= item['valorAtivoFechamento'] %></td>
+			<td class="dataBaseFechamento"><%= item['dataBaseFechamento'] %></td>
 		</tr>
 		<% end %>
 	</table>
