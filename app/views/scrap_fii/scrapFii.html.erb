@@ -1,12 +1,21 @@
 <div class="main">
 	<% if(params.has_key?(:codigo)) %>
-	<h3>Rendimentos do ativo <%= params[:codigo] %></h3>
+	<h3 class="center-align">Rendimentos do ativo <%= params[:codigo] %></h3>
 	<% end %>
 	<% if (@ngiri.kind_of?(Array)) %>
-	<table>
+	<table class="centered">
+		<tr>
+			<th>Dia da distribuição</th>
+			<th>Rendimento</th>
+			<th>Valor do Ativo no dia de fechamento</th>
+			<th>Data base do fechamento</th>
+		</tr>
 		<% @ngiri.each do |item| %>
 		<tr>
-			<td><%= item %></td>
+			<td><%= item['diaDaDistribuicao'] %></td>
+			<td>R$<%= item['rendimento'] %></td>
+			<td>R$<%= item['valorAtivoFechamento'] %></td>
+			<td><%= item['dataBaseFechamento'] %></td>
 		</tr>
 		<% end %>
 	</table>
