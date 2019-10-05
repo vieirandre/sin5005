@@ -1,0 +1,42 @@
+<%= form_with(model: dados_fundo, local: true) do |form| %>
+  <% if dados_fundo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(dados_fundo.errors.count, "error") %> prohibited this dados_fundo from being saved:</h2>
+
+      <ul>
+      <% dados_fundo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :codigoAtivo %>
+    <%= form.text_field :codigoAtivo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rendimento %>
+    <%= form.text_field :rendimento %>
+  </div>
+
+  <div class="field">
+    <%= form.label :diaDistribuicao %>
+    <%= form.text_field :diaDistribuicao %>
+  </div>
+
+  <div class="field">
+    <%= form.label :precoAtivoNoFechamento %>
+    <%= form.text_field :precoAtivoNoFechamento %>
+  </div>
+
+  <div class="field">
+    <%= form.label :diaFechamentoDoPreco %>
+    <%= form.text_field :diaFechamentoDoPreco %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
