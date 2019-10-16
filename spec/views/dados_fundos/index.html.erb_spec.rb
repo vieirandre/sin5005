@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+=begin
 RSpec.describe "dados_fundos/index", type: :view do
   before(:each) do
     assign(:dados_fundos, [
@@ -29,3 +30,4 @@ RSpec.describe "dados_fundos/index", type: :view do
     assert_select "tr>td", :text => "Dia Fechamento Do Preco".to_s, :count => 2
   end
 end
+=end
