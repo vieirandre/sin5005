@@ -75,4 +75,16 @@ class DadosFundo < ApplicationRecord
 			end
 		end
 	end
+	def self.salvarFundo(codigo, listaResultados)
+		if (listaResultados.kind_of?(Array))
+			listaResultados.each do |item|
+				diaFechamento = item['dataBaseFechamento']
+				acao = DadosFundo.where(:codigoAtivo => codigo, :diaFechamentoDoPreco => diaFechamento).first_or_create do |fundo|
+					fundo.rendimento = item['rendimento']
+					fundo.diaDistribuicao = item['diaDaDistribuicao']
+					fundo.precoAtivoNoFechamento = item['valorAtivoFechamento']
+				end
+			end
+		end
+	end
 end

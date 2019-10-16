@@ -8,7 +8,9 @@ class DadosFundosController < ApplicationController
       codigo = params[:codigo]
       puts "O CÓDIGO É: " + codigo
       if (codigo != "")
-        return DadosFundo.realizarScrapFii(codigo)
+        listaFundos = DadosFundo.realizarScrapFii(codigo)
+        DadosFundo.salvarFundo(codigo,listaFundos)
+        return listaFundos
       else
         return "Erro: Nenhum código foi informado"
       end
