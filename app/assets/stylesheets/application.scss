@@ -13,3 +13,34 @@
  *= require_tree .
  *= require_self
  */
+
+ @import "materialize/components/color-variables";
+ $primary-color: color("blue", "lighten-2") !default;
+ $secondary-color: color("yellow", "base") !default;
+ @import 'materialize';
+ @import "https://fonts.googleapis.com/icon?family=Material+Icons";
+
+ .main {
+ 	padding-left: 300px;
+ }
+ #side-fixed{
+ 	margin-top: 64px;
+ }
+ .user-icon{
+ 	width: 80px;
+ }
+ .full-image{
+ 	width: 100%;
+ }
+ .user-view{
+ 	background-color: #00000055;
+ }
+
+ @media only screen and (max-width : 992px) {
+ 	.main {
+ 		padding-left: 0;
+ 	}
+ 	#side-fixed{
+ 		margin-top: 0px;
+ 	}
+ }
