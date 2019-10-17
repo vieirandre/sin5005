@@ -1,5 +1,5 @@
 class FundosController < ApplicationController
-  before_action :set_fundo, only: [:show, :edit, :update, :destroy]
+  before_action :set_fundo, only: %i[show edit update destroy]
 
   # GET /fundos
   # GET /fundos.json
@@ -9,8 +9,7 @@ class FundosController < ApplicationController
 
   # GET /fundos/1
   # GET /fundos/1.json
-  def show
-  end
+  def show; end
 
   # GET /fundos/new
   def new
@@ -18,8 +17,7 @@ class FundosController < ApplicationController
   end
 
   # GET /fundos/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /fundos
   # POST /fundos.json
@@ -62,13 +60,16 @@ class FundosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_fundo
-      @fundo = Fundo.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def fundo_params
-      params.require(:fundo).permit(:ticker, :nome, :cnpj, :segmento, :tx_adm, :data_const, :num_cotas_emitidas, :patrimonio_inicial, :valor_inicial_cota, :prazo, :tipo_gestao)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_fundo
+    @fundo = Fundo.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def fundo_params
+    params.require(:fundo).permit(:ticker, :nome, :cnpj, :segmento, :tx_adm,
+                                  :data_const, :num_cotas_emitidas, :patrimonio_inicial,
+                                  :valor_inicial_cota, :prazo, :tipo_gestao)
+  end
 end
