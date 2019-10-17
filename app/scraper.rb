@@ -16,8 +16,7 @@ def scraper
   fundo_url = 'https://www.fundsexplorer.com.br/funds/abcp11/'
   fundo_pag_nao_parseada = HTTParty.get(fundo_url)
   fundo_pag_parseada = Nokogiri::HTML(fundo_pag_nao_parseada)
-  preco = fundo_pag_parseada.css('span.price')[0].text
-              .tr('\n', '').delete('R$').strip
+  preco = fundo_pag_parseada.css('span.price')[0].text.delete('R$').strip
   nome_fundo = fundo_pag_parseada.css('h2.section-subtitle')[0].text
   cnpj = fundo_pag_parseada.css('span.description')[8].text.tr('\n', '').strip
   segmento = fundo_pag_parseada.css('span.description')[11].text.strip
