@@ -18,10 +18,10 @@ def scraper
   fundo_pag_parseada = Nokogiri::HTML(fundo_pag_nao_parseada)
   preco = fundo_pag_parseada.css('span.price')[0].text.delete('R$').strip
   nome_fundo = fundo_pag_parseada.css('h2.section-subtitle')[0].text
-  cnpj = fundo_pag_parseada.css('span.description')[8].text.tr('\n', '').strip
+  cnpj = fundo_pag_parseada.css('span.description')[8].text.strip
   segmento = fundo_pag_parseada.css('span.description')[11].text.strip
   tx_adm = fundo_pag_parseada.css('span.description')[13].text.strip.delete('^0-9.').chomp('.')
-  data_const = fundo_pag_parseada.css('span.description')[1].text.tr('\n', '').strip
+  data_const = fundo_pag_parseada.css('span.description')[1].text.strip
   num_cotas_emitidas = fundo_pag_parseada.css('span.description')[2].text.strip
   patrimonio_inicial = fundo_pag_parseada.css('span.description')[3].text.delete('R$').strip
   valor_inicial_cota = fundo_pag_parseada.css('span.description')[4].text.delete('R$').strip
