@@ -1,0 +1,6 @@
+
+class Noticias < ApplicationRecord
+
+
+
+end
