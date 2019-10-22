@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'httparty'
 
 # Specs in this file have access to a helper object that includes
 # the NoticiasHelper. For example:
@@ -10,6 +11,9 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe NoticiasHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+#RSpec.describe NoticiasHelper, type: :helper do
+#  pending "add some examples to (or delete) #{__FILE__}"
+#end
+
+#
+
