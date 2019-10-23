@@ -17,7 +17,6 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 
 gem 'httparty'
-gem 'nokogiri'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -69,3 +68,12 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'httparty'
 #Materialize CSS
 gem 'materialize-sass', '~> 1.0.0'
+
+#Nokogiri
+gem 'nokogiri', '~> 1.8', '>= 1.8.1'
+
+#Metric_Fu - Não funcionou no travis
+# gem 'metric_fu', git: 'git@github.com:fastruby/metric_fu.git', branch: 'reek-dep'
+
+#Simplecov
+gem 'simplecov', require: false, group: :test

@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_25_110756) do
+ActiveRecord::Schema.define(version: 2019_10_02_222747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "dados_fundos", force: :cascade do |t|
+    t.string "codigoAtivo"
+    t.string "rendimento"
+    t.string "diaDistribuicao"
+    t.string "precoAtivoNoFechamento"
+    t.string "diaFechamentoDoPreco"
+  end
 
   create_table "fundos", force: :cascade do |t|
     t.string "ticker"

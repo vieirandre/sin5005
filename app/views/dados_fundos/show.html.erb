@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Codigoativo:</strong>
+  <%= @dados_fundo.codigoAtivo %>
+</p>
+
+<p>
+  <strong>Rendimento:</strong>
+  <%= @dados_fundo.rendimento %>
+</p>
+
+<p>
+  <strong>Diadistribuicao:</strong>
+  <%= @dados_fundo.diaDistribuicao %>
+</p>
+
+<p>
+  <strong>Precoativonofechamento:</strong>
+  <%= @dados_fundo.precoAtivoNoFechamento %>
+</p>
+
+<p>
+  <strong>Diafechamentodopreco:</strong>
+  <%= @dados_fundo.diaFechamentoDoPreco %>
+</p>
+
+<%= link_to 'Edit', edit_dados_fundo_path(@dados_fundo) %> |
+<%= link_to 'Back', dados_fundos_path %>
