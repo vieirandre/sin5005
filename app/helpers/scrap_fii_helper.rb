@@ -1,0 +1,2 @@
+module ScrapFiiHelper
+end
