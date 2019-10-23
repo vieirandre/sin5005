@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_222747) do
     t.string "diaDistribuicao"
     t.string "precoAtivoNoFechamento"
     t.string "diaFechamentoDoPreco"
+  end
 
   create_table "fundos", force: :cascade do |t|
     t.string "ticker"
