@@ -1,0 +1,72 @@
+<%= form_with(model: fundo, local: true) do |form| %>
+  <% if fundo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(fundo.errors.count, "error") %> prohibited this fundo from being saved:</h2>
+
+      <ul>
+      <% fundo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ticker %>
+    <%= form.text_field :ticker %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nome %>
+    <%= form.text_field :nome %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cnpj %>
+    <%= form.text_field :cnpj %>
+  </div>
+
+  <div class="field">
+    <%= form.label :segmento %>
+    <%= form.text_field :segmento %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tx_adm %>
+    <%= form.text_field :tx_adm %>
+  </div>
+
+  <div class="field">
+    <%= form.label :data_const %>
+    <%= form.text_field :data_const %>
+  </div>
+
+  <div class="field">
+    <%= form.label :num_cotas_emitidas %>
+    <%= form.text_field :num_cotas_emitidas %>
+  </div>
+
+  <div class="field">
+    <%= form.label :patrimonio_inicial %>
+    <%= form.text_field :patrimonio_inicial %>
+  </div>
+
+  <div class="field">
+    <%= form.label :valor_inicial_cota %>
+    <%= form.text_field :valor_inicial_cota %>
+  </div>
+
+  <div class="field">
+    <%= form.label :prazo %>
+    <%= form.text_field :prazo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tipo_gestao %>
+    <%= form.text_field :tipo_gestao %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
