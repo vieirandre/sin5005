@@ -21,3 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var elems = document.querySelectorAll('.sidenav');
 	var instances = M.Sidenav.init(elems, options);
 });
+
+function acionarForm(idForm){
+	document.getElementById(idForm).submit();
+}
