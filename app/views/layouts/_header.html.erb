@@ -1,0 +1,31 @@
+<div class="navbar-fixed">
+	<nav class="light-blue lighten-1" role="navigation">
+		<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">SIN5005</a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="#">Navbar Link</a></li>
+			</ul>
+			<ul id="side-fixed" class="sidenav sidenav-fixed">
+				<li>
+					<div class="user-view">
+						<div class="background">
+							<%= image_tag('landscape.jpg', :class => "full-image") %>
+						</div>
+						<a href="#user">
+							<%= link_to root_path do %>
+							<%= image_tag('user2.png', :class => "full-image, circle") %>
+							<% end %>
+							<a href="#name"><span class="white-text name">John Doe</span></a>
+							<a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+						</a>
+					</div>
+				</li>
+				<li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+				<li><a href="#!">Second Link</a></li>
+				<li><div class="divider"></div></li>
+				<li><a class="subheader">Subheader</a></li>
+				<li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+			</ul>
+			<a href="#" data-target="side-fixed" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+		</div>
+	</nav>
+</div>
