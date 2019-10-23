@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ticker:</strong>
+  <%= @fundo.ticker %>
+</p>
+
+<p>
+  <strong>Nome:</strong>
+  <%= @fundo.nome %>
+</p>
+
+<p>
+  <strong>Cnpj:</strong>
+  <%= @fundo.cnpj %>
+</p>
+
+<p>
+  <strong>Segmento:</strong>
+  <%= @fundo.segmento %>
+</p>
+
+<p>
+  <strong>Tx adm:</strong>
+  <%= @fundo.tx_adm %>
+</p>
+
+<p>
+  <strong>Data const:</strong>
+  <%= @fundo.data_const %>
+</p>
+
+<p>
+  <strong>Num cotas emitidas:</strong>
+  <%= @fundo.num_cotas_emitidas %>
+</p>
+
+<p>
+  <strong>Patrimonio inicial:</strong>
+  <%= @fundo.patrimonio_inicial %>
+</p>
+
+<p>
+  <strong>Valor inicial cota:</strong>
+  <%= @fundo.valor_inicial_cota %>
+</p>
+
+<p>
+  <strong>Prazo:</strong>
+  <%= @fundo.prazo %>
+</p>
+
+<p>
+  <strong>Tipo gestao:</strong>
+  <%= @fundo.tipo_gestao %>
+</p>
+
+<%= link_to 'Edit', edit_fundo_path(@fundo) %> |
+<%= link_to 'Back', fundos_path %>
