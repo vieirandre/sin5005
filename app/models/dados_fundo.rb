@@ -1,19 +1,74 @@
 class DadosFundo < ApplicationRecord
 	require 'nokogiri'
 	require 'open-uri'
-	def self.pegarValorComRegex(regex1, regex2, texto)
-		resultadoRegex1 = texto.scan(regex1)
-		if (!resultadoRegex1.empty? && !resultadoRegex1.first.empty? && !resultadoRegex1.first.first.empty?)
-			resultadoRegex1 = resultadoRegex1.first.first.to_s
-			resultadoRegex2 = resultadoRegex1.scan(regex2)
-			if (!resultadoRegex2.empty? && !resultadoRegex2.first.empty? && !resultadoRegex2.first.first.empty?)
-				resultado = resultadoRegex2.first.first.to_s
-			else
-				resultado = '-'
-			end
+
+	def self.aplicarRegex(regex,texto)
+		resultado = texto.scan(regex)
+		if (!resultado.empty? && !resultado.first.empty? && !resultado.first.first.empty?)
+			return resultado.first.first.to_s
+		else
+			return "-"
+		end
+	end
+
+	def self.verificaResultadoRegexValido(resultado)
+		if (resultado != "-")
+			return true
+		else
+			return false
+		end
+	end
+
+	def self.recuperarInformacaoComRegex(regexGeral, regexEspecifico, texto)
+		resultadoRegexGeral = self.aplicarRegex(regexGeral, texto)
+		if (self.verificaResultadoRegexValido(resultadoRegexGeral))
+			resultado = self.aplicarRegex(regexEspecifico, texto)
 		else
 			resultado = '-'
 		end
+	end
+
+	def self.regexMonetario
+		# return /(((([0-9]*)\.)*)?([0-9]*),([0-9]*))/i
+		return /(((([0-9][0-9][0-9])\.)*)?([0-9]?[0-9]?[0-9])\,([0-9][0-9]))/i
+	end
+
+	def self.regexData
+		# return (([0-9]*)\/([0-9]*)\/([0-9]*))
+		return /(([0-9][0-9])\/([0-9][0-9])\/(([0-9][0-9])?[0-9][0-9]))/i
+	end
+
+	def self.pegarRendimento(conteudo)
+		regexRendimento = /(Rendimento(\s)*no(\s)*valor(\s)*de(\s)*R\$(\s)*(((([0-9]*)\.)*)?([0-9]*),([0-9]*)))/i
+		return self.recuperarInformacaoComRegex(regexRendimento, self.regexMonetario, conteudo)
+	end
+
+	def self.pegarDiaDaDistribuicao(conteudo)
+		regexDiaDaDistribuicao = /(por(\s)*cota(\s)*no(\s)*dia(\s)*([0-9]*)\/([0-9]*)\/([0-9]*))/i
+		return self.recuperarInformacaoComRegex(regexDiaDaDistribuicao, self.regexData, conteudo)
+	end
+
+	def self.pegarValorAtivoDiaDeFechamento(conteudo)
+		regexValorAtivoFechamento = /(Fechamento\:(\s)*R\$(\s)*(((([0-9]*)\.)*)?([0-9]*),([0-9]*)))/i
+		return self.recuperarInformacaoComRegex(regexValorAtivoFechamento, self.regexMonetario, conteudo)
+	end
+
+	def self.pegarDataBaseFechamento(conteudo)
+		regexDataBaseFechamento = /(Data(\s)*base:(\s)*([0-9]*)\/([0-9]*)\/([0-9]*))/i
+		return self.recuperarInformacaoComRegex(regexDataBaseFechamento, regexData, conteudo)
+	end
+
+	def self.verificarSeExisteAlgumRendimento(conteudo)
+		conteudo.include? "Informou distribuição de:"
+	end
+
+	def self.gerarItem(conteudo)
+		item = {}
+		item['rendimento'] = self.pegarRendimento(conteudo)
+		item['diaDaDistribuicao'] = self.pegarDiaDaDistribuicao(conteudo)
+		item['valorAtivoFechamento'] = self.pegarValorAtivoDiaDeFechamento(conteudo)
+		item['dataBaseFechamento'] = self.pegarDataBaseFechamento(conteudo)
+		return item
 	end
 
 	def self.realizarScrapFii(codigo)
@@ -26,35 +81,8 @@ class DadosFundo < ApplicationRecord
 			numeroDeRendimentos = 0
 			doc.css('.entry-content ul li').each do |link|
 				numeroDeNoticias = numeroDeNoticias + 1
-				if link.content.include? "Informou distribuição de:"
-					regexMonetario = /(((([0-9]*)\.)*)?([0-9]*),([0-9]*))/i
-					regexData = /(([0-9]*)\/([0-9]*)\/([0-9]*))/i
-
-					regexRendimento = /(Rendimento(\s)*no(\s)*valor(\s)*de(\s)*R\$(\s)*(((([0-9]*)\.)*)?([0-9]*),([0-9]*)))/i
-					rendimento = self.pegarValorComRegex(regexRendimento, regexMonetario, link.content)
-
-					regexDiaDaDistribuicao = /(por(\s)*cota(\s)*no(\s)*dia(\s)*([0-9]*)\/([0-9]*)\/([0-9]*))/i
-					diaDaDistribuicao = self.pegarValorComRegex(regexDiaDaDistribuicao, regexData, link.content)
-
-					regexValorAtivoFechamento = /(Fechamento\:(\s)*R\$(\s)*(((([0-9]*)\.)*)?([0-9]*),([0-9]*)))/i
-					valorAtivoFechamento = self.pegarValorComRegex(regexValorAtivoFechamento, regexMonetario, link.content)
-
-					regexDataBaseFechamento = /(Data(\s)*base:(\s)*([0-9]*)\/([0-9]*)\/([0-9]*))/i
-					dataBaseFechamento = self.pegarValorComRegex(regexDataBaseFechamento, regexData, link.content)
-					
-					# puts "Rendimento: " + rendimento
-					# puts "diaDaDistribuicao: " + diaDaDistribuicao
-					# puts "valorAtivoFechamento: " +valorAtivoFechamento
-					# puts "dataBaseFechamento: " + dataBaseFechamento
-
-					item = {}
-					item['rendimento'] = rendimento
-					item['diaDaDistribuicao'] = diaDaDistribuicao
-					item['valorAtivoFechamento'] = valorAtivoFechamento
-					item['dataBaseFechamento'] = dataBaseFechamento
-
-
-					items.push(item)
+				if verificarSeExisteAlgumRendimento(link.content)
+					items.push(self.gerarItem(link.content))
 					numeroDeRendimentos = numeroDeRendimentos + 1
 				end
 			end

@@ -69,3 +69,9 @@ gem 'materialize-sass', '~> 1.0.0'
 
 #Nokogiri
 gem 'nokogiri', '~> 1.8', '>= 1.8.1'
+
+#Metric_Fu
+gem 'metric_fu', git: 'git@github.com:fastruby/metric_fu.git', branch: 'reek-dep'
+
+#Simplecov
+gem 'simplecov', require: false, group: :test
