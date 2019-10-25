@@ -5,6 +5,7 @@ class FundosController < ApplicationController
   # GET /fundos.json
   def index
     @fundos = Fundo.all
+    render json: {status: 'Sucesso', message: 'Fundos carregados', data: @fundos}, status: :ok
   end
 
   # GET /fundos/1
