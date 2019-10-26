@@ -2,7 +2,20 @@ class FundosController < ApplicationController
 
   def index
     @fundos = Fundo.all
-    render json: {status: 'Sucesso', message: 'Fundos carregados', data: @fundos}, status: :ok
+    render json: {status: 'Sucesso', message: 'Fundos carregados', data: @fundos},
+           status: :ok
+  end
+
+  def recupera
+    @fundo = Fundo.find_by_ticker(params[:ticker])
+
+    if !@fundo.nil?
+      render json: {status: 'Sucesso', message: 'Fundo carregado', data: @fundo},
+             status: :ok
+    else
+      render json: {status: 'Não encontrado', message: "Fundo #{params[:ticker].upcase} não encontrado"},
+             status: :not_found
+    end
   end
 
   def create
