@@ -7,7 +7,13 @@ class FundosController < ApplicationController
   end
 
   def recupera
-    @fundo = Fundo.find_by_ticker(params[:ticker])
+    ticker = params[:ticker].upcase
+    @fundo = Fundo.find_by_ticker(ticker)
+
+    if @fundo.nil?
+      Fundo.scrap(ticker)
+      @fundo = Fundo.find_by_ticker(ticker)
+    end
 
     if !@fundo.nil?
       render json: {status: 'Sucesso', message: 'Fundo carregado', data: @fundo},
