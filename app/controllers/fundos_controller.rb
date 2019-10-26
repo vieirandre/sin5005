@@ -29,6 +29,11 @@ class FundosController < ApplicationController
     end
   end
 
+  def popula
+    Fundo.popula
+    index
+  end
+
   def create
     @fundo = Fundo.new(fundo_params)
 
