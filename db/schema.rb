@@ -21,18 +21,21 @@ ActiveRecord::Schema.define(version: 2019_10_02_222747) do
     t.string "diaDistribuicao"
     t.string "precoAtivoNoFechamento"
     t.string "diaFechamentoDoPreco"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "fundos", force: :cascade do |t|
     t.string "ticker"
+    t.string "preco"
     t.string "nome"
     t.string "cnpj"
     t.string "segmento"
-    t.decimal "tx_adm"
+    t.string "tx_adm"
     t.string "data_const"
-    t.decimal "num_cotas_emitidas"
-    t.decimal "patrimonio_inicial"
-    t.decimal "valor_inicial_cota"
+    t.string "num_cotas_emitidas"
+    t.string "patrimonio_inicial"
+    t.string "valor_inicial_cota"
     t.string "prazo"
     t.string "tipo_gestao"
     t.datetime "created_at", null: false
