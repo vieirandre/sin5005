@@ -1,9 +1,14 @@
 class FundosController < ApplicationController
-
   def index
     @fundos = Fundo.all
-    render json: {status: 'Sucesso', message: 'Fundos carregados', data: @fundos},
-           status: :ok
+
+    if @fundos.blank?
+      render json: { status: 'Sucesso', message: 'Não há fundos salvos no banco', data: @fundos },
+             status: :ok
+    else
+      render json: { status: 'Sucesso', message: 'Fundos carregados', data: @fundos },
+             status: :ok
+    end
   end
 
   def recupera
@@ -16,10 +21,10 @@ class FundosController < ApplicationController
     end
 
     if !@fundo.nil?
-      render json: {status: 'Sucesso', message: 'Fundo carregado', data: @fundo},
+      render json: { status: 'Sucesso', message: 'Fundo carregado', data: @fundo },
              status: :ok
     else
-      render json: {status: 'Não encontrado', message: "Fundo #{params[:ticker].upcase} não encontrado"},
+      render json: { status: 'Não encontrado', message: "Fundo #{ticker} não encontrado" },
              status: :not_found
     end
   end
