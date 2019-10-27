@@ -17,9 +17,9 @@ class Fundo < ApplicationRecord
 
   def self.popula
     url = 'https://www.fundsexplorer.com.br/funds/'
-    pag_nao_parseada = HTTParty.get(url)
-    pag_parseada = Nokogiri::HTML(pag_nao_parseada)
-    lista_fundos = pag_parseada.css('span.symbol')
+    pagina = HTTParty.get(url)
+    pagina_parseada = Nokogiri::HTML(pagina)
+    lista_fundos = pagina_parseada.css('span.symbol')
     # contagem_fundos = lista_fundos.count
 
     lista_fundos.each do |fundo|
