@@ -4,15 +4,13 @@ class Fundo < ApplicationRecord
 
   def self.scrap(ticker)
     url = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
-    pag_nao_parseada = HTTParty.get(url)
-    pag_parseada = Nokogiri::HTML(pag_nao_parseada)
-    title = pag_parseada.title
+    pagina = HTTParty.get(url)
 
-    return if title['500'] || title['400'] || title['404']
+    return unless pagina.success?
 
-    fundo = extrair_infos(ticker, pag_parseada)
-
-    salvar(fundo)
+    pagina_parseada = Nokogiri::HTML(pagina)
+    fundo = extrair_infos(ticker, pagina_parseada)
+    salva(fundo)
   end
 
   def self.popula
@@ -47,7 +45,7 @@ class Fundo < ApplicationRecord
     end
   end
 
-  def self.salvar(fundo)
+  def self.salva(fundo)
     fundo.save
   end
 end
