@@ -1,5 +1,5 @@
 class Fundo < ApplicationRecord
-  validates :ticker, presence: true
+  validates_presence_of :ticker
 
   require 'httparty'
   require 'nokogiri'
