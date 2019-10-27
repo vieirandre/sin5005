@@ -48,6 +48,6 @@ class Fundo < ApplicationRecord
   end
 
   def self.salva(fundo)
-    fundo.save
+    fundo.save!
   end
 end
