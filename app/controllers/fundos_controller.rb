@@ -5,7 +5,7 @@ class FundosController < ApplicationController
     @fundos = Fundo.all
 
     if @fundos.blank?
-      render json: {status: 'Sucesso', message: 'Não há fundos salvos no banco', data: @fundos},
+      render json: { status: 'Sucesso', message: 'Não há fundos salvos no banco', data: @fundos },
              status: :ok
     else
       render json: { status: 'Sucesso', message: 'Fundos carregados', data: @fundos },
