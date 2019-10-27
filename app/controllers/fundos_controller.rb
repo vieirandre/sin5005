@@ -1,4 +1,6 @@
 class FundosController < ApplicationController
+  protect_from_forgery with: :null_session, only: :popula
+
   def index
     @fundos = Fundo.all
 

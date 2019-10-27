@@ -16,8 +16,6 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
-gem 'httparty'
-
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -56,24 +54,17 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
   gem 'selenium-webdriver'
   gem 'webdrivers'
   gem 'cucumber-rails', require: false
-  gem 'database_cleaner'
+  gem 'simplecov', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'httparty'
-#Materialize CSS
 gem 'materialize-sass', '~> 1.0.0'
-
-#Nokogiri
 gem 'nokogiri', '~> 1.8', '>= 1.8.1'
-
-#Metric_Fu - Não funcionou no travis
-# gem 'metric_fu', git: 'git@github.com:fastruby/metric_fu.git', branch: 'reek-dep'
-
-#Simplecov
-gem 'simplecov', require: false, group: :test

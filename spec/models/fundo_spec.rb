@@ -1,5 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe Fundo, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  let(:valid_fundo) { build(:fundo, ticker: 'abcp11') }
+  let(:invalid_fundo) { build(:fundo, ticker: nil) }
+
+  describe 'validação de um fundo' do
+    it 'valida um fundo' do
+      expect(valid_fundo).to be_valid
+    end
+    it 'invalida um fundo' do
+      expect(invalid_fundo).to_not be_valid
+    end
+  end
+
+  describe 'salvar fundo no banco' do
+    it 'tenta salvar fundo inválido' do
+      expect { Fundo.salva(invalid_fundo) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+    it 'tenta salvar fundo válido' do
+      expect(Fundo.salva(valid_fundo)).to be_truthy
+    end
+  end
+
 end

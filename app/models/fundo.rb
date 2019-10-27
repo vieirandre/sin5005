@@ -1,25 +1,25 @@
 class Fundo < ApplicationRecord
+  validates_presence_of :ticker
+
   require 'httparty'
   require 'nokogiri'
 
   def self.scrap(ticker)
     url = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
-    pag_nao_parseada = HTTParty.get(url)
-    pag_parseada = Nokogiri::HTML(pag_nao_parseada)
-    title = pag_parseada.title
+    pagina = HTTParty.get(url)
 
-    return if title['500'] || title['400'] || title['404']
+    return unless pagina.success?
 
-    fundo = extrair_infos(ticker, pag_parseada)
-
-    salvar(fundo)
+    pagina_parseada = Nokogiri::HTML(pagina)
+    fundo = extrair_infos(ticker, pagina_parseada)
+    salva(fundo)
   end
 
   def self.popula
     url = 'https://www.fundsexplorer.com.br/funds/'
-    pag_nao_parseada = HTTParty.get(url)
-    pag_parseada = Nokogiri::HTML(pag_nao_parseada)
-    lista_fundos = pag_parseada.css('span.symbol')
+    pagina = HTTParty.get(url)
+    pagina_parseada = Nokogiri::HTML(pagina)
+    lista_fundos = pagina_parseada.css('span.symbol')
     # contagem_fundos = lista_fundos.count
 
     lista_fundos.each do |fundo|
@@ -47,7 +47,7 @@ class Fundo < ApplicationRecord
     end
   end
 
-  def self.salvar(fundo)
-    fundo.save
+  def self.salva(fundo)
+    fundo.save!
   end
 end
