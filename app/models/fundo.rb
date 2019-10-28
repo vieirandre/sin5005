@@ -16,21 +16,23 @@ class Fundo < ApplicationRecord
   end
 
   def self.popula
-    url = 'https://www.fundsexplorer.com.br/funds/'
-    pagina = HTTParty.get(url)
-    pagina_parseada = Nokogiri::HTML(pagina)
-    lista_fundos = pagina_parseada.css('span.symbol')
-    # contagem_fundos = lista_fundos.count
+    @url_main = 'https://www.fundsexplorer.com.br/funds/'
+    @url_alt = 'https://fiis.com.br/lista-por-codigo/'
 
-    lista_fundos.each do |fundo|
-      ticker = fundo.children[0].text.upcase
+    pagina = HTTParty.get(@url = @url_main)
+    pagina = HTTParty.get(@url = @url_alt) unless pagina.success?
+
+    pagina_parseada = Nokogiri::HTML(pagina)
+    lista_fundos = retorna_lista_fundos(pagina_parseada)
+
+    lista_fundos.each do |ticker|
       scrap(ticker) if Fundo.find_by_ticker(ticker).nil?
     end
   end
 
   private
 
-  def retorna_lista_fundos(pagina_parseada)
+  def self.retorna_lista_fundos(pagina_parseada)
     lista_fundos = []
 
     case @url
