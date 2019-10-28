@@ -5,8 +5,11 @@ class Fundo < ApplicationRecord
   require 'nokogiri'
 
   def self.scrap(ticker)
-    url = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
-    pagina = HTTParty.get(url)
+    @url_fundo_main = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
+    @url_fundo_alt = "https://fiis.com.br/#{ticker}/?aba=geral"
+
+    pagina = HTTParty.get(@url_fundo = @url_fundo_main)
+    pagina = HTTParty.get(@url_fundo = @url_fundo_alt) unless pagina.success?
 
     return unless pagina.success?
 
@@ -16,11 +19,13 @@ class Fundo < ApplicationRecord
   end
 
   def self.popula
-    @url_main = 'https://www.fundsexplorer.com.br/funds/'
-    @url_alt = 'https://fiis.com.br/lista-por-codigo/'
+    @url_tickers_main = 'https://www.fundsexplorer.com.br/funds/'
+    @url_tickers_alt = 'https://fiis.com.br/lista-por-codigo/'
 
-    pagina = HTTParty.get(@url = @url_main)
-    pagina = HTTParty.get(@url = @url_alt) unless pagina.success?
+    pagina = HTTParty.get(@url_tickers = @url_tickers_main)
+    pagina = HTTParty.get(@url_tickers = @url_tickers_alt) unless pagina.success?
+
+    return unless pagina.success?
 
     pagina_parseada = Nokogiri::HTML(pagina)
     tickers = extrai_tickers(pagina_parseada)
@@ -35,13 +40,13 @@ class Fundo < ApplicationRecord
   def self.extrai_tickers(pagina_parseada)
     tickers = []
 
-    case @url
-    when @url_main
+    case @url_tickers
+    when @url_tickers_main
       pagina_parseada.css('span.symbol').each do |fundo|
         ticker = fundo.children[0].text.strip.upcase
         tickers.push(ticker)
       end
-    when @url_alt
+    when @url_tickers_alt
       tabela = pagina_parseada.search('table').first
       qtde = tabela.css('tr > td').count / 3 - 1
       base = 3
@@ -57,6 +62,15 @@ class Fundo < ApplicationRecord
   end
 
   def self.extrai_fundo(ticker, pagina_parseada)
+    case @url_fundo
+    when @url_fundo_main
+      extrai_fundo_main(ticker, pagina_parseada)
+    when @url_fundo_alt
+      extrai_fundo_alt(ticker, pagina_parseada)
+    end
+  end
+
+  def self.extrai_fundo_main(ticker, pagina_parseada)
     Fundo.new do |f|
       f.ticker = ticker
       f.preco = pagina_parseada.css('span.price')[0].text.delete('R$').strip
@@ -71,6 +85,10 @@ class Fundo < ApplicationRecord
       f.prazo = pagina_parseada.css('span.description')[12].text.strip
       f.tipo_gestao = pagina_parseada.css('span.description')[5].text.strip
     end
+  end
+
+  def self.extrai_fundo_alt(ticker, pagina_parseada)
+
   end
 
   def self.salva(fundo)
