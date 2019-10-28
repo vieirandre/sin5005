@@ -11,7 +11,7 @@ class Fundo < ApplicationRecord
     return unless pagina.success?
 
     pagina_parseada = Nokogiri::HTML(pagina)
-    fundo = extrair_infos(ticker, pagina_parseada)
+    fundo = extrai_fundo(ticker, pagina_parseada)
     salva(fundo)
   end
 
@@ -23,23 +23,23 @@ class Fundo < ApplicationRecord
     pagina = HTTParty.get(@url = @url_alt) unless pagina.success?
 
     pagina_parseada = Nokogiri::HTML(pagina)
-    lista_fundos = retorna_lista_fundos(pagina_parseada)
+    tickers = extrai_tickers(pagina_parseada)
 
-    lista_fundos.each do |ticker|
+    tickers.each do |ticker|
       scrap(ticker) if Fundo.find_by_ticker(ticker).nil?
     end
   end
 
   private
 
-  def self.retorna_lista_fundos(pagina_parseada)
-    lista_fundos = []
+  def self.extrai_tickers(pagina_parseada)
+    tickers = []
 
     case @url
     when @url_main
       pagina_parseada.css('span.symbol').each do |fundo|
         ticker = fundo.children[0].text.strip.upcase
-        lista_fundos.push(ticker)
+        tickers.push(ticker)
       end
     when @url_alt
       tabela = pagina_parseada.search('table').first
@@ -49,14 +49,14 @@ class Fundo < ApplicationRecord
       qtde.times do
         ticker = tabela.css('tr > td')[base].text.partition('*').first.strip.upcase
         base += 3
-        lista_fundos.push(ticker)
+        tickers.push(ticker)
       end
     end
 
-    lista_fundos
+    tickers
   end
 
-  def self.extrair_infos(ticker, pagina_parseada)
+  def self.extrai_fundo(ticker, pagina_parseada)
     Fundo.new do |f|
       f.ticker = ticker
       f.preco = pagina_parseada.css('span.price')[0].text.delete('R$').strip
