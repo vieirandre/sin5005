@@ -30,20 +30,44 @@ class Fundo < ApplicationRecord
 
   private
 
-  def self.extrair_infos(ticker, pag_parseada)
+  def retorna_lista_fundos(pagina_parseada)
+    lista_fundos = []
+
+    case @url
+    when @url_main
+      pagina_parseada.css('span.symbol').each do |fundo|
+        ticker = fundo.children[0].text.upcase
+        lista_fundos.push(ticker)
+      end
+    when @url_alt
+      tabela = pagina_parseada.search('table').first
+      qtde = tabela.css('tr > td').count / 3 - 1
+      base = 3
+
+      qtde.times do
+        ticker = tabela.css('tr > td')[base].text.partition('*').first
+        base += 3
+        lista_fundos.push(ticker)
+      end
+    end
+
+    lista_fundos
+  end
+
+  def self.extrair_infos(ticker, pagina_parseada)
     Fundo.new do |f|
       f.ticker = ticker
-      f.preco = pag_parseada.css('span.price')[0].text.delete('R$').strip
-      f.nome = pag_parseada.css('h2.section-subtitle')[0].text
-      f.cnpj = pag_parseada.css('span.description')[8].text.strip
-      f.segmento = pag_parseada.css('span.description')[11].text.strip
-      f.tx_adm = pag_parseada.css('span.description')[13].text.strip.delete('^0-9.').chomp('.')
-      f.data_const = pag_parseada.css('span.description')[1].text.strip
-      f.num_cotas_emitidas = pag_parseada.css('span.description')[2].text.strip
-      f.patrimonio_inicial = pag_parseada.css('span.description')[3].text.delete('R$').strip
-      f.valor_inicial_cota = pag_parseada.css('span.description')[4].text.delete('R$').strip
-      f.prazo = pag_parseada.css('span.description')[12].text.strip
-      f.tipo_gestao = pag_parseada.css('span.description')[5].text.strip
+      f.preco = pagina_parseada.css('span.price')[0].text.delete('R$').strip
+      f.nome = pagina_parseada.css('h2.section-subtitle')[0].text
+      f.cnpj = pagina_parseada.css('span.description')[8].text.strip
+      f.segmento = pagina_parseada.css('span.description')[11].text.strip
+      f.tx_adm = pagina_parseada.css('span.description')[13].text.strip.delete('^0-9.').chomp('.')
+      f.data_const = pagina_parseada.css('span.description')[1].text.strip
+      f.num_cotas_emitidas = pagina_parseada.css('span.description')[2].text.strip
+      f.patrimonio_inicial = pagina_parseada.css('span.description')[3].text.delete('R$').strip
+      f.valor_inicial_cota = pagina_parseada.css('span.description')[4].text.delete('R$').strip
+      f.prazo = pagina_parseada.css('span.description')[12].text.strip
+      f.tipo_gestao = pagina_parseada.css('span.description')[5].text.strip
     end
   end
 
