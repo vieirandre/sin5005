@@ -1,11 +1,9 @@
 require 'rails_helper'
-require 'simplecov'
 
 # RSpec.describe DadosFundo, type: :model do
 #   pending "add some examples to (or delete) #{__FILE__}"
 # end
 
-SimpleCov.start
 describe DadosFundo do
 	#Teste do metodo aplicarRegex
 	{
