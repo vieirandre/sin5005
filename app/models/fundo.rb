@@ -8,9 +8,7 @@ class Fundo < ApplicationRecord
     @url_fundo_main = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
     @url_fundo_alt = "https://fiis.com.br/#{ticker}/?aba=geral"
 
-    pagina = HTTParty.get(@url_fundo = @url_fundo_main)
-    pagina = HTTParty.get(@url_fundo = @url_fundo_alt) unless pagina.success?
-
+    pagina = captura_pagina
     return unless pagina.success?
 
     pagina_parseada = Nokogiri::HTML(pagina)
@@ -36,6 +34,20 @@ class Fundo < ApplicationRecord
   end
 
   private
+
+  def self.captura_pagina
+    case @url_tickers
+    when nil?
+      pagina = HTTParty.get(@url_fundo = @url_fundo_main)
+      pagina = HTTParty.get(@url_fundo = @url_fundo_alt) unless pagina.success?
+    when @url_tickers_main
+      pagina = HTTParty.get(@url_fundo = @url_fundo_main)
+    when @url_tickers_alt
+      pagina = HTTParty.get(@url_fundo = @url_fundo_alt)
+    end
+
+    pagina
+  end
 
   def self.extrai_tickers(pagina_parseada)
     tickers = []
