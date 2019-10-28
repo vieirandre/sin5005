@@ -38,7 +38,7 @@ class Fundo < ApplicationRecord
     case @url
     when @url_main
       pagina_parseada.css('span.symbol').each do |fundo|
-        ticker = fundo.children[0].text.upcase
+        ticker = fundo.children[0].text.strip.upcase
         lista_fundos.push(ticker)
       end
     when @url_alt
@@ -47,7 +47,7 @@ class Fundo < ApplicationRecord
       base = 3
 
       qtde.times do
-        ticker = tabela.css('tr > td')[base].text.partition('*').first
+        ticker = tabela.css('tr > td')[base].text.partition('*').first.strip.upcase
         base += 3
         lista_fundos.push(ticker)
       end
