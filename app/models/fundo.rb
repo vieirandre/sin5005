@@ -41,32 +41,40 @@ class Fundo < ApplicationRecord
     tickers = []
 
     case @url_tickers
-    when @url_tickers_main
-      pagina_parseada.css('span.symbol').each do |fundo|
-        ticker = fundo.children[0].text.strip.upcase
-        tickers.push(ticker)
-      end
     when @url_tickers_alt
-      tabela = pagina_parseada.search('table').first
-      qtde = tabela.css('tr > td').count / 3 - 1
-      base = 3
-
-      qtde.times do
-        ticker = tabela.css('tr > td')[base].text.partition('*').first.strip.upcase
-        base += 3
-        tickers.push(ticker)
-      end
+      extrai_tickers_alt(pagina_parseada, tickers)
+    else
+      extrai_tickers_main(pagina_parseada, tickers)
     end
 
     tickers
   end
 
+  def self.extrai_tickers_main(pagina_parseada, tickers)
+    pagina_parseada.css('span.symbol').each do |fundo|
+      ticker = fundo.children[0].text.strip.upcase
+      tickers.push(ticker)
+    end
+  end
+
+  def self.extrai_tickers_alt(pagina_parseada, tickers)
+    tabela = pagina_parseada.search('table').first
+    qtde = tabela.css('tr > td').count / 3 - 1
+    base = 3
+
+    qtde.times do
+      ticker = tabela.css('tr > td')[base].text.partition('*').first.strip.upcase
+      base += 3
+      tickers.push(ticker)
+    end
+  end
+
   def self.extrai_fundo(ticker, pagina_parseada)
     case @url_fundo
-    when @url_fundo_main
-      extrai_fundo_main(ticker, pagina_parseada)
     when @url_fundo_alt
       extrai_fundo_alt(ticker, pagina_parseada)
+    else
+      extrai_fundo_main(ticker, pagina_parseada)
     end
   end
 
