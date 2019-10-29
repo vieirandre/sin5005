@@ -5,7 +5,7 @@ class Fundo < ApplicationRecord
   require 'nokogiri'
 
   def self.scrap(ticker)
-    @url_fundo_main = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
+    @url_fundo_main = "https://www.fundsexplorer.com.br/funxx/#{ticker}/"
     @url_fundo_alt = "https://fiis.com.br/#{ticker}/?aba=geral"
 
     pagina = HTTParty.get(@url_fundo = @url_fundo_main)
@@ -103,6 +103,7 @@ class Fundo < ApplicationRecord
       f.nome = pagina_parseada.css('h2.entry-title')[0].text.split('–').last.strip
       f.cnpj = pagina_parseada.css('td')[1].text.strip
       f.segmento = pagina_parseada.css('td')[7].text.strip
+      f.tx_adm = extrai_taxa_adm(ticker)
       f.data_const = pagina_parseada.css('td')[15].text.strip
       f.num_cotas_emitidas = pagina_parseada.css('td')[21].text.chomp('*').strip
       f.tipo_gestao = pagina_parseada.css('td')[5].text.split(' ').last.strip
