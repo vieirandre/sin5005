@@ -85,7 +85,7 @@ class Fundo < ApplicationRecord
       f.nome = pagina_parseada.css('h2.section-subtitle')[0].text
       f.cnpj = pagina_parseada.css('span.description')[8].text.strip
       f.segmento = pagina_parseada.css('span.description')[11].text.strip
-      f.tx_adm = pagina_parseada.css('span.description')[13].text.strip.delete('^0-9.').chomp('.')
+      f.tx_adm = extrai_taxa_adm(ticker)
       f.data_const = pagina_parseada.css('span.description')[1].text.strip
       f.num_cotas_emitidas = pagina_parseada.css('span.description')[2].text.strip
       f.patrimonio_inicial = pagina_parseada.css('span.description')[3].text.delete('R$').strip
@@ -109,6 +109,19 @@ class Fundo < ApplicationRecord
     rescue StandardError
       nil
     end
+  end
+
+  def self.extrai_taxa_adm(ticker)
+    url = "https://fiis.com.br/#{ticker}/?aba=indicadores"
+    regex = /([Aa]dministra[cç][aã]o)(\s*)(:)(\s*)(\d*,\d*\s?%\s?a.[amd])/i
+
+    pagina = HTTParty.get(url)
+    pagina_parseada = Nokogiri::HTML(pagina)
+
+    tabela = pagina_parseada.search('table').first
+    tx_adm = tabela.css('tr > td').text.match regex
+
+    tx_adm[5]
   end
 
   def self.salva(fundo)
