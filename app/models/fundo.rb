@@ -5,7 +5,7 @@ class Fundo < ApplicationRecord
   require 'nokogiri'
 
   def self.scrap(ticker)
-    @url_fundo_main = "https://www.fundsexplorer.com.br/funxx/#{ticker}/"
+    @url_fundo_main = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
     @url_fundo_alt = "https://fiis.com.br/#{ticker}/?aba=geral"
 
     pagina = HTTParty.get(@url_fundo = @url_fundo_main)
