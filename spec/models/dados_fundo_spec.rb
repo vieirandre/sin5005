@@ -170,6 +170,7 @@ describe DadosFundo do
 		end
 	end
 
+	=begin
 	#Teste do metodo realizarScrapFii
 	#
 	#Obs. Segundo codigo pode mudar os
@@ -186,6 +187,7 @@ describe DadosFundo do
 			teste.kind_of?(type).should == true
 		end
 	end
+	=end
 
 	#Teste do metodo salvarFundo
 	{
