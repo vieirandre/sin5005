@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :usuarios
   root 'home#index'
   get 'fundos', to: 'fundos#index'
   get 'fundos/:ticker', to: 'fundos#recupera'
