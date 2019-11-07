@@ -100,6 +100,7 @@ class Fundo < ApplicationRecord
       f.nome = pagina_parseada.at_css('span#fund-name').text
       f.cnpj = pagina_parseada.css('span.value')[9].text
       f.segmento = pagina_parseada.css('span.value')[4].text.split(':').last.strip
+      f.tx_adm = extrai_taxa_adm(ticker)
       f.data_const = pagina_parseada.css('span.value')[6].text
       f.num_cotas_emitidas = pagina_parseada.css('span.value')[7].text
       f.tipo_gestao = pagina_parseada.css('span.value')[5].text.split(' ').last.strip
@@ -109,14 +110,14 @@ class Fundo < ApplicationRecord
   end
 
   def self.extrai_taxa_adm(ticker)
-    url = "https://fiis.com.br/#{ticker}/?aba=indicadores"
+    url = "https://fiis.com.br/#{ticker}/"
     regex = /([Aa]dministra[cç][aã]o)(\s*)(:)(\s*)(\d*,\d*\s?%\s?a.[amd])/i
 
     pagina = HTTParty.get(url)
     pagina_parseada = Nokogiri::HTML(pagina)
 
-    tabela = pagina_parseada.search('table').first
-    tx_adm = tabela.css('tr > td').text.match regex
+    info = pagina_parseada.css('div.taxas').text
+    tx_adm = info.match regex
 
     tx_adm[5]
   end
