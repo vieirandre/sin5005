@@ -31,6 +31,7 @@ class DadosFundo < ApplicationRecord
 			item['rendimento'] = documento.at_css("ValorProventoCota").content
 			item['diaPagamento'] = documento.at_css("DataPagamento").content
 			item['dataBase'] = documento.at_css("DataBase").content
+			item['cnpj'] = documento.at_css("CNPJFundo").content
 			return item
 		else
 			return documento.getErroTraduzido || documento.getErro
@@ -59,6 +60,7 @@ class DadosFundo < ApplicationRecord
 				acao = DadosFundo.where(:codigoAtivo => codigoAtivo, :dataBase => dataBase).first_or_create do |fundo|
 					fundo.rendimento = item['rendimento']
 					fundo.diaPagamento = item['diaPagamento']
+					fundo.cnpj = item['cnpj']
 				end
 			end
 			return true
