@@ -1,138 +1,64 @@
 class DadosFundo < ApplicationRecord
-	require 'nokogiri'
-	require 'open-uri'
+	require_relative 'arquivo'
 
-	def self.aplicarRegex(regex,texto)
-		resultado = texto.scan(regex)
-		if (!resultado.empty? && !resultado.first.empty? && !resultado.first.first.empty?)
-			return resultado.first.first.to_s
+	def self.pegarLinksDoXml(cnpj)
+		url = "https://fnet.bmfbovespa.com.br/fnet/publico/pesquisarGerenciadorDocumentosCVM?paginaCertificados=false&tipoFundo=1&administrador=&cnpjFundo=".concat(cnpj,"&idCategoriaDocumento=14&idTipoDocumento=41&idEspecieDocumento=0&situacao=&cnpj=&dataReferencia=&dataInicial=&dataFinal=&idModalidade=&palavraChave=")
+		arquivo = Arquivo.new(url)
+		arquivo.abrirArquivo
+		arquivo.aplicarNokogiriSite
+		documento = arquivo.getDocumento
+		if documento
+			links = documento.css('a[title="Download do Documento"]').map { |link| link['href'] }
+			return links
 		else
-			return "-"
+			return documento.getErroTraduzido || documento.getErro
 		end
 	end
 
-	def self.verificaResultadoRegexValido(resultado)
-		if (resultado != "-")
-			return true
-		else
-			return false
-		end
+	def self.gerarDocumentoDadoFundo(caminhoArquivo)
+		url = "https://fnet.bmfbovespa.com.br/fnet/publico/".concat(caminhoArquivo)
+		arquivo = Arquivo.new(url)
+		arquivo.abrirArquivo
+		arquivo.aplicarNokogiriXML
+		documento = arquivo.getDocumento
+		return documento
 	end
 
-	def self.recuperarInformacaoComRegex(regexGeral, regexEspecifico, texto)
-		resultadoRegexGeral = self.aplicarRegex(regexGeral, texto)
-		if (self.verificaResultadoRegexValido(resultadoRegexGeral))
-			resultado = self.aplicarRegex(regexEspecifico, texto)
-		else
-			resultado = '-'
-		end
-	end
-
-	def self.regexMonetario
-		# return /(((([0-9]*)\.)*)?([0-9]*),([0-9]*))/i
-		return /(((([0-9][0-9][0-9])\.)*)?([0-9]?[0-9]?[0-9])\,([0-9][0-9]))/i
-	end
-
-	def self.regexData
-		# return (([0-9]*)\/([0-9]*)\/([0-9]*))
-		return /(([0-9][0-9])\/([0-9][0-9])\/(([0-9][0-9])?[0-9][0-9]))/i
-	end
-
-	def self.pegarRendimento(conteudo)
-		regexRendimento = /(Rendimento(\s)*no(\s)*valor(\s)*de(\s)*R\$(\s)*(((([0-9]*)\.)*)?([0-9]*)\,([0-9]*)))/i
-		return self.recuperarInformacaoComRegex(regexRendimento, self.regexMonetario, conteudo)
-	end
-
-	def self.pegarDiaDaDistribuicao(conteudo)
-		regexDiaDaDistribuicao = /(por(\s)*cota(\s)*no(\s)*dia(\s)*([0-9]*)\/([0-9]*)\/([0-9]*))/i
-		return self.recuperarInformacaoComRegex(regexDiaDaDistribuicao, self.regexData, conteudo)
-	end
-
-	def self.pegarValorAtivoDiaDeFechamento(conteudo)
-		regexValorAtivoFechamento = /(Fechamento\:(\s)*R\$(\s)*(((([0-9]*)\.)*)?([0-9]*)\,([0-9]*)))/i
-		return self.recuperarInformacaoComRegex(regexValorAtivoFechamento, self.regexMonetario, conteudo)
-	end
-
-	def self.pegarDataBaseFechamento(conteudo)
-		regexDataBaseFechamento = /(Data(\s)*base:(\s)*([0-9]*)\/([0-9]*)\/([0-9]*))/i
-		return self.recuperarInformacaoComRegex(regexDataBaseFechamento, regexData, conteudo)
-	end
-
-	def self.verificarSeExisteAlgumRendimento(conteudo)
-		conteudo.include? "Informou distribuição de:"
-	end
-
-	def self.gerarItem(conteudo, itens, numeroDeRendimentos)
-		if self.verificarSeExisteAlgumRendimento(conteudo)
+	def self.gerarItemDadoFundo(documento)
+		if documento
 			item = {}
-			item['rendimento'] = self.pegarRendimento(conteudo)
-			item['diaDaDistribuicao'] = self.pegarDiaDaDistribuicao(conteudo)
-			item['valorAtivoFechamento'] = self.pegarValorAtivoDiaDeFechamento(conteudo)
-			item['dataBaseFechamento'] = self.pegarDataBaseFechamento(conteudo)
-			itens.push(item)
-			numeroDeRendimentos = numeroDeRendimentos + 1
-		end
-		return numeroDeRendimentos
-	end
-
-	def self.traduzirErroAbrirSite(erro, codigo)
-		if erro == '404 Not Found'
-			return "O código '" + codigo + "' não existe. Verifique e tente novamente"
+			item['codigoAtivo'] = documento.at_css("CodNegociacaoCota").content
+			item['rendimento'] = documento.at_css("ValorProventoCota").content
+			item['diaPagamento'] = documento.at_css("DataPagamento").content
+			item['dataBase'] = documento.at_css("DataBase").content
+			return item
 		else
-			return false
+			return documento.getErroTraduzido || documento.getErro
 		end
 	end
 
-	def self.abrirSite(codigo)
-		begin
-			site = "https://fiis.com.br/" + codigo
-			doc = Nokogiri::HTML(open(site))
-			return doc, false, false
-		rescue OpenURI::HTTPError => e
-			erro = traduzirErroAbrirSite(e.message, codigo)
-			if !erro
-				return false, e, false
+	def self.gerarDadosFundo(cnpj)
+		linksComRendimento = pegarLinksDoXml(cnpj)
+		dadosFundo = []
+		linksComRendimento.each do |caminhoArquivo|
+			item = gerarItemDadoFundo(gerarDocumentoDadoFundo(caminhoArquivo))
+			if item.is_a?(Hash)
+				dadosFundo.push(item)
 			else
-				return false, e, erro
+				puts item
 			end
 		end
+		return dadosFundo
 	end
 
-	def self.retornoNoticiasInvestimento(numeroDeNoticias, numeroDeRendimentos, itens)
-		if (numeroDeNoticias == 0)
-			return "Não existem notícias desse ativo. Verifique se ele existe"
-		elsif (numeroDeRendimentos == 0)
-			return "Não houve fatos relevantes desse ativo"
-		else
-			return itens
-		end
-	end
-
-	def self.realizarScrapFii(codigo)
-		# Fetch and parse HTML document
-		doc, e, erro = self.abrirSite(codigo)
-		if !e
-			itens = []
-			numeroDeNoticias = 0
-			numeroDeRendimentos = 0
-			doc.css('.entry-content ul li').each do |link|
-				numeroDeNoticias = numeroDeNoticias + 1
-				numeroDeRendimentos = self.gerarItem(link.content, itens, numeroDeRendimentos)
-			end
-			return self.retornoNoticiasInvestimento(numeroDeNoticias, numeroDeRendimentos, itens)
-		else
-			return erro || e
-		end
-	end
-
-	def self.salvarFundo(codigo, listaResultados)
+	def self.salvarDados(listaResultados)
 		if (listaResultados.kind_of?(Array))
 			listaResultados.each do |item|
-				diaFechamento = item['dataBaseFechamento']
-				acao = DadosFundo.where(:codigoAtivo => codigo, :diaFechamentoDoPreco => diaFechamento).first_or_create do |fundo|
+				dataBase = item['dataBase']
+				codigoAtivo = item['codigoAtivo']
+				acao = DadosFundo.where(:codigoAtivo => codigoAtivo, :dataBase => dataBase).first_or_create do |fundo|
 					fundo.rendimento = item['rendimento']
-					fundo.diaDistribuicao = item['diaDaDistribuicao']
-					fundo.precoAtivoNoFechamento = item['valorAtivoFechamento']
+					fundo.diaPagamento = item['diaPagamento']
 				end
 			end
 			return true
@@ -140,4 +66,4 @@ class DadosFundo < ApplicationRecord
 			return false
 		end
 	end
-end	
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_02_222747) do
+ActiveRecord::Schema.define(version: 2019_11_07_063433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,11 +18,10 @@ ActiveRecord::Schema.define(version: 2019_10_02_222747) do
   create_table "dados_fundos", force: :cascade do |t|
     t.string "codigoAtivo"
     t.string "rendimento"
-    t.string "diaDistribuicao"
-    t.string "precoAtivoNoFechamento"
-    t.string "diaFechamentoDoPreco"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "dataBase"
+    t.string "diaPagamento"
   end
 
   create_table "fundos", force: :cascade do |t|
@@ -42,4 +41,23 @@ ActiveRecord::Schema.define(version: 2019_10_02_222747) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tiles", force: :cascade do |t|
+    t.bigint "usuarios_id"
+    t.bigint "fundos_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fundos_id"], name: "index_tiles_on_fundos_id"
+    t.index ["usuarios_id"], name: "index_tiles_on_usuarios_id"
+  end
+
+  create_table "usuarios", force: :cascade do |t|
+    t.string "login"
+    t.string "senha"
+    t.string "nome"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "tiles", "fundos", column: "fundos_id"
+  add_foreign_key "tiles", "usuarios", column: "usuarios_id"
 end
