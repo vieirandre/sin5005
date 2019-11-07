@@ -6,7 +6,7 @@ class Fundo < ApplicationRecord
 
   def self.scrap(ticker)
     @url_fundo_main = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
-    @url_fundo_alt = "https://fiis.com.br/#{ticker}/?aba=geral"
+    @url_fundo_alt = "https://fiis.com.br/#{ticker}/"
 
     pagina = HTTParty.get(@url_fundo = @url_fundo_main)
     pagina = HTTParty.get(@url_fundo = @url_fundo_alt) unless pagina.success?
@@ -96,13 +96,12 @@ class Fundo < ApplicationRecord
   def self.extrai_fundo_alt(ticker, pagina_parseada)
     Fundo.new do |f|
       f.ticker = ticker
-      f.nome = pagina_parseada.css('h2.entry-title')[0].text.split('–').last.strip
-      f.cnpj = pagina_parseada.css('td')[1].text.strip
-      f.segmento = pagina_parseada.css('td')[7].text.strip
-      f.tx_adm = extrai_taxa_adm(ticker)
-      f.data_const = pagina_parseada.css('td')[15].text.strip
-      f.num_cotas_emitidas = pagina_parseada.css('td')[21].text.chomp('*').strip
-      f.tipo_gestao = pagina_parseada.css('td')[5].text.split(' ').last.strip
+      f.nome = pagina_parseada.at_css('span#fund-name').text
+      f.cnpj = pagina_parseada.css('span.value')[9].text
+      f.segmento = pagina_parseada.css('span.value')[4].text.split(':').last.strip
+      f.data_const = pagina_parseada.css('span.value')[6].text
+      f.num_cotas_emitidas = pagina_parseada.css('span.value')[7].text
+      f.tipo_gestao = pagina_parseada.css('span.value')[5].text.split(' ').last.strip
     rescue StandardError
       nil
     end
