@@ -6,7 +6,7 @@ class Fundo < ApplicationRecord
 
   def self.scrap(ticker)
     @url_fundo_main = "https://www.fundsexplorer.com.br/funds/#{ticker}/"
-    @url_fundo_alt = "https://fiis.com.br/#{ticker}/?aba=geral"
+    @url_fundo_alt = "https://fiis.com.br/#{ticker}/"
 
     pagina = HTTParty.get(@url_fundo = @url_fundo_main)
     pagina = HTTParty.get(@url_fundo = @url_fundo_alt) unless pagina.success?
@@ -20,7 +20,7 @@ class Fundo < ApplicationRecord
 
   def self.popula
     @url_tickers_main = 'https://www.fundsexplorer.com.br/funds/'
-    @url_tickers_alt = 'https://fiis.com.br/lista-por-codigo/'
+    @url_tickers_alt = 'https://fiis.com.br/lista-de-fundos-imobiliarios/'
 
     pagina = HTTParty.get(@url_tickers = @url_tickers_main)
     pagina = HTTParty.get(@url_tickers = @url_tickers_alt) unless pagina.success?
@@ -58,14 +58,10 @@ class Fundo < ApplicationRecord
   end
 
   def self.extrai_tickers_alt(pagina_parseada, tickers)
-    tabela = pagina_parseada.search('table').first
-    qtde = tabela.css('tr > td').count / 3 - 1
-    base = 3
+    lista_fundos = pagina_parseada.css('span.ticker')
 
-    qtde.times do
-      ticker = tabela.css('tr > td')[base].text.partition('*').first.strip.upcase
-      base += 3
-      tickers.push(ticker)
+    lista_fundos.each do |fundo|
+      tickers.push(fundo.text)
     end
   end
 
@@ -100,27 +96,28 @@ class Fundo < ApplicationRecord
   def self.extrai_fundo_alt(ticker, pagina_parseada)
     Fundo.new do |f|
       f.ticker = ticker
-      f.nome = pagina_parseada.css('h2.entry-title')[0].text.split('–').last.strip
-      f.cnpj = pagina_parseada.css('td')[1].text.strip
-      f.segmento = pagina_parseada.css('td')[7].text.strip
+      f.preco = pagina_parseada.css('div.item.quotation').css('span.value').text
+      f.nome = pagina_parseada.at_css('span#fund-name').text
+      f.cnpj = pagina_parseada.css('span.value')[9].text
+      f.segmento = pagina_parseada.css('span.value')[4].text.split(':').last.strip
       f.tx_adm = extrai_taxa_adm(ticker)
-      f.data_const = pagina_parseada.css('td')[15].text.strip
-      f.num_cotas_emitidas = pagina_parseada.css('td')[21].text.chomp('*').strip
-      f.tipo_gestao = pagina_parseada.css('td')[5].text.split(' ').last.strip
+      f.data_const = pagina_parseada.css('span.value')[6].text
+      f.num_cotas_emitidas = pagina_parseada.css('span.value')[7].text
+      f.tipo_gestao = pagina_parseada.css('span.value')[5].text.split(' ').last.strip
     rescue StandardError
       nil
     end
   end
 
   def self.extrai_taxa_adm(ticker)
-    url = "https://fiis.com.br/#{ticker}/?aba=indicadores"
+    url = "https://fiis.com.br/#{ticker}/"
     regex = /([Aa]dministra[cç][aã]o)(\s*)(:)(\s*)(\d*,\d*\s?%\s?a.[amd])/i
 
     pagina = HTTParty.get(url)
     pagina_parseada = Nokogiri::HTML(pagina)
 
-    tabela = pagina_parseada.search('table').first
-    tx_adm = tabela.css('tr > td').text.match regex
+    info = pagina_parseada.css('div.taxas').text
+    tx_adm = info.match regex
 
     tx_adm[5]
   end
