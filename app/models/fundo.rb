@@ -96,6 +96,7 @@ class Fundo < ApplicationRecord
   def self.extrai_fundo_alt(ticker, pagina_parseada)
     Fundo.new do |f|
       f.ticker = ticker
+      f.preco = pagina_parseada.css('div.item.quotation').css('span.value').text
       f.nome = pagina_parseada.at_css('span#fund-name').text
       f.cnpj = pagina_parseada.css('span.value')[9].text
       f.segmento = pagina_parseada.css('span.value')[4].text.split(':').last.strip
