@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_02_222747) do
+ActiveRecord::Schema.define(version: 2019_11_05_195509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2019_10_02_222747) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
+  
   create_table "fundos", force: :cascade do |t|
     t.string "ticker"
     t.string "preco"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 2019_10_02_222747) do
     t.string "valor_inicial_cota"
     t.string "prazo"
     t.string "tipo_gestao"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+  
+  create_table "usuarios", force: :cascade do |t|
+    t.string "login"
+    t.string "senha"
+    t.string "nome"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
