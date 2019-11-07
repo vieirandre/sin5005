@@ -20,7 +20,7 @@ class Fundo < ApplicationRecord
 
   def self.popula
     @url_tickers_main = 'https://www.fundsexplorer.com.br/funds/'
-    @url_tickers_alt = 'https://fiis.com.br/lista-por-codigo/'
+    @url_tickers_alt = 'https://fiis.com.br/lista-de-fundos-imobiliarios/'
 
     pagina = HTTParty.get(@url_tickers = @url_tickers_main)
     pagina = HTTParty.get(@url_tickers = @url_tickers_alt) unless pagina.success?
@@ -58,14 +58,10 @@ class Fundo < ApplicationRecord
   end
 
   def self.extrai_tickers_alt(pagina_parseada, tickers)
-    tabela = pagina_parseada.search('table').first
-    qtde = tabela.css('tr > td').count / 3 - 1
-    base = 3
+    lista_fundos = pagina_parseada.css('span.ticker')
 
-    qtde.times do
-      ticker = tabela.css('tr > td')[base].text.partition('*').first.strip.upcase
-      base += 3
-      tickers.push(ticker)
+    lista_fundos.each do |fundo|
+      tickers.push(fundo.text)
     end
   end
 
