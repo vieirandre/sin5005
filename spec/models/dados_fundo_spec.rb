@@ -1,10 +1,6 @@
 require 'rails_helper'
 
-# RSpec.describe DadosFundo, type: :model do
-#   pending "add some examples to (or delete) #{__FILE__}"
-# end
-
-describe DadosFundo do
+RSpec.describe DadosFundo do
   # Teste do metodo aplicarRegex
   {
     {
@@ -17,14 +13,14 @@ describe DadosFundo do
     } => '-',
   }.each_pair do |args, result|
     it "Applying #{args['regex']} to the text #{args['text']} should return #{result}" do
-      DadosFundo.aplicarRegex(args['regex'],args['text']).should == result
+      expect(DadosFundo.aplicarRegex(args['regex'], args['text'])).to be_eql(result)
     end
   end
 
   # Teste do metodo verificaResultadoRegexValido
   {'a' => true, '-' => false}.each_pair do |arg, result|
     it "#{arg} should return #{result}" do
-      DadosFundo.verificaResultadoRegexValido(arg).should == result
+      expect(DadosFundo.verificaResultadoRegexValido(arg)).to be_eql(result)
     end
   end
 
@@ -42,20 +38,20 @@ describe DadosFundo do
     } => '-',
   }.each_pair do |args, result|
     it "Applying #{args['regexGeral']} and #{args['regexEspecifico']} to the text #{args['text']} should return #{result}" do
-      DadosFundo.recuperarInformacaoComRegex(args['regexGeral'],args['regexEspecifico'],args['text']).should == result
+      expect(DadosFundo.recuperarInformacaoComRegex(args['regexGeral'], args['regexEspecifico'], args['text'])).to be_eql(result)
     end
   end
 
   # Teste da funcao regexMonetario
   result = /(((([0-9][0-9][0-9])\.)*)?([0-9]?[0-9]?[0-9])\,([0-9][0-9]))/i
   it "Should return #{result}" do
-    DadosFundo.regexMonetario.should == result
+    expect(DadosFundo.regexMonetario).to be_eql(result)
   end
 
   # Teste da funcao regexData
   result2 = /(([0-9][0-9])\/([0-9][0-9])\/(([0-9][0-9])?[0-9][0-9]))/i
   it "Should return #{result2}" do
-    DadosFundo.regexData.should == result2
+    expect(DadosFundo.regexData).to be_eql(result2)
   end
 
   # Teste do metodo pegarRendimento
@@ -64,7 +60,7 @@ describe DadosFundo do
     'Nao vai funcionar nesse caso' => '-',
   }.each_pair do |arg, result|
     it "With #{arg} should return #{result}" do
-      DadosFundo.pegarRendimento(arg).should == result
+      expect(DadosFundo.pegarRendimento(arg)).to be_eql(result)
     end
   end
 
@@ -74,7 +70,7 @@ describe DadosFundo do
     'Nao vai funcionar nesse caso' => '-',
   }.each_pair do |arg, result|
     it "With #{arg} should return #{result}" do
-      DadosFundo.pegarDiaDaDistribuicao(arg).should == result
+      expect(DadosFundo.pegarDiaDaDistribuicao(arg)).to be_eql(result)
     end
   end
 
@@ -84,7 +80,7 @@ describe DadosFundo do
     'Nao vai funcionar nesse caso' => '-',
   }.each_pair do |arg, result|
     it "With #{arg} should return #{result}" do
-      DadosFundo.pegarValorAtivoDiaDeFechamento(arg).should == result
+      expect(DadosFundo.pegarValorAtivoDiaDeFechamento(arg)).to be_eql(result)
     end
   end
 
@@ -94,7 +90,7 @@ describe DadosFundo do
     'Nao vai funcionar nesse caso' => '-',
   }.each_pair do |arg, result|
     it "With #{arg} should return #{result}" do
-      DadosFundo.pegarDataBaseFechamento(arg).should == result
+      expect(DadosFundo.pegarDataBaseFechamento(arg)).to be_eql(result)
     end
   end
 
@@ -104,7 +100,7 @@ describe DadosFundo do
     'Nao vai funcionar nesse caso' => false,
   }.each_pair do |arg, result|
     it "With #{arg} should return #{result}" do
-      DadosFundo.verificarSeExisteAlgumRendimento(arg).should == result
+      expect(DadosFundo.verificarSeExisteAlgumRendimento(arg)).to be_eql(result)
     end
   end
 
@@ -122,7 +118,7 @@ describe DadosFundo do
     } => 0,
   }.each_pair do |args, result|
     it "With #{args} should return #{result}" do
-      DadosFundo.gerarItem(args['conteudo'], args['itens'], args['numeroDeRentimentos']).should == result
+      expect(DadosFundo.gerarItem(args['conteudo'], args['itens'], args['numeroDeRentimentos'])).to be_eql(result)
     end
   end
 
@@ -138,7 +134,7 @@ describe DadosFundo do
     } => false,
   }.each_pair do |args, result|
     it "With #{args} should return #{result}" do
-      DadosFundo.traduzirErroAbrirSite(args['erro'], args['codigo']).should == result
+      expect(DadosFundo.traduzirErroAbrirSite(args['erro'], args['codigo'])).to be_eql(result)
     end
   end
 
@@ -166,7 +162,7 @@ describe DadosFundo do
     } => 'Não houve fatos relevantes desse ativo'
   }.each_pair do |args, result|
     it "With #{args} should return #{result}" do
-      DadosFundo.retornoNoticiasInvestimento(args['numeroDeNoticias'], args['numeroDeRendimentos'], args['itens']).should == result
+      expect(DadosFundo.retornoNoticiasInvestimento(args['numeroDeNoticias'], args['numeroDeRendimentos'], args['itens'])).to be_eql(result)
     end
   end
 
@@ -202,7 +198,7 @@ describe DadosFundo do
     } => false
   }.each_pair do |args, result|
     it "With #{args} should return #{result}" do
-      DadosFundo.salvarFundo(args['codigo'], args['listaResultados']).should == result
+      expect(DadosFundo.salvarFundo(args['codigo'], args['listaResultados'])).to be_eql(result)
     end
   end
 
