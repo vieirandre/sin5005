@@ -1,6 +1,7 @@
 class Noticias < ApplicationRecord
 
   require 'nokogiri'
+  require 'open-uri'
 
 	class Noticia
 		attr_accessor :titulo
@@ -17,7 +18,9 @@ class Noticias < ApplicationRecord
 
 	def self.pesquisa(termo)
 		url = "https://news.google.com/rss/search?q=" + termo + "&hl=pt-BR&gl=BR&ceid=BR:pt-419"
-		return Nokogiri::XML(open(url))
+		
+		
+		return Nokogiri::XML(open(url)) 
 	end
 
 	def self.extrairinformacoes(fii_xml)
