@@ -39,5 +39,6 @@ class FundosController < ApplicationController
   def integra
     ticker = params[:ticker].upcase
     @fundo = Fundo.find_by_ticker(ticker)
+    @lista_noticias = Noticias.lista(ticker)
   end
 end

@@ -28,3 +28,15 @@
       <td><%= @fundo.tipo_gestao %></td>
     </tr>
 </table>
+<table>
+  <tr>
+    <th>Notícias relevantes</th>
+  </tr>
+  <tbody>
+  <% @lista_noticias.map { |top| %>
+    <tr>
+      <td> <a href="<%= top.link %>">  <%= top.titulo %> </a></td>
+    </tr>
+  <% } %>
+  </tbody>
+</table>
