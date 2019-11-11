@@ -1,0 +1,42 @@
+<table>
+  <tr>
+    <th>Ticker</th>
+    <th>Nome</th>
+    <th>Preço</th>
+    <th>CNPJ</th>
+    <th>Segmento</th>
+    <th>Taxa de administração</th>
+    <th>Data de constituição</th>
+    <th>Número de cotas emitidas</th>
+    <th>Patrimônio inicial</th>
+    <th>Valor inicial da cota</th>
+    <th>Prazo</th>
+    <th>Tipo de gestão</th>
+  </tr>
+    <tr>
+      <td><%= @fundo.ticker %></td>
+      <td><%= @fundo.nome %></td>
+      <td><%= @fundo.preco %></td>
+      <td><%= @fundo.cnpj %></td>
+      <td><%= @fundo.segmento %></td>
+      <td><%= @fundo.tx_adm %></td>
+      <td><%= @fundo.data_const %></td>
+      <td><%= @fundo.num_cotas_emitidas %></td>
+      <td><%= @fundo.patrimonio_inicial %></td>
+      <td><%= @fundo.valor_inicial_cota %></td>
+      <td><%= @fundo.prazo %></td>
+      <td><%= @fundo.tipo_gestao %></td>
+    </tr>
+</table>
+<table>
+  <tr>
+    <th>Notícias relevantes</th>
+  </tr>
+  <tbody>
+  <% @lista_noticias.map { |top| %>
+    <tr>
+      <td> <a href="<%= top.link %>">  <%= top.titulo %> </a></td>
+    </tr>
+  <% } %>
+  </tbody>
+</table>

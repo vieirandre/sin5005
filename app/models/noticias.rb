@@ -1,6 +1,7 @@
 class Noticias < ApplicationRecord
 
   require 'nokogiri'
+	require 'open-uri'
 
 	class Noticia
 		attr_accessor :titulo
