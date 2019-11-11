@@ -19,7 +19,7 @@ RSpec.describe SessionsController, type: :controller do
   describe "GET #destroy" do
     it "returns http success" do
       get :destroy
-      expect(response).to_not be_empty
+      expect(response).to_not have_http_status(302)
 
     end
   end
