@@ -35,4 +35,9 @@ class FundosController < ApplicationController
     Fundo.popula
     index
   end
+
+  def integra
+    ticker = params[:ticker].upcase
+    @fundo = Fundo.find_by_ticker(ticker)
+  end
 end
