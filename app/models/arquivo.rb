@@ -2,7 +2,10 @@ class Arquivo
 	require 'nokogiri'
 	require 'open-uri'
 	require 'openssl'
-	OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+	prev_setting = OpenSSL::SSL.send(:remove_const, :VERIFY_PEER)
+	OpenSSL::SSL.const_set(:VERIFY_PEER, OpenSSL::SSL::VERIFY_NONE)
+	OpenSSL::SSL.send(:remove_const, :VERIFY_PEER)
+	OpenSSL::SSL.const_set(:VERIFY_PEER, prev_setting)
 
 	def initialize(caminhoArquivo)
 		@caminhoArquivo = caminhoArquivo
