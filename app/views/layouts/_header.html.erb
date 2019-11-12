@@ -1,4 +1,4 @@
-<div class="navbar-fixed">
+﻿<div class="navbar-fixed">
 	<nav class="light-blue lighten-1" role="navigation">
 		<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">SIN5005</a>
 			<% if current_user %>
@@ -24,20 +24,24 @@
 
 					<% if current_user %>
 					  <li><a class="subheader"><%= link_to "Log Out", logout_path %></a> </li>
-					<% else %>
-					  <%= link_to "Sign Up", signup_path %> or 
-					  <%= link_to "Log In", login_path %>
-					  <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-					<li><a href="#!">Second Link</a></li>
-					<li><div class="divider"></div></li>
-					<li><a class="subheader">Subheader</a></li>
-					<li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+
 					<% end %>
 
 					
 				</ul>
+
 			<% end %>
 			<a href="#" data-target="side-fixed" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 		</div>
 	</nav>
 </div>
+<% if current_user %>
+
+
+<% else %>
+							<%= link_to "Novo Usuário", new_usuario_path %> ou 
+					  <%= link_to "Log In", login_path %>
+					
+			<% end %>
+
+			

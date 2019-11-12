@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   get 'noticias/fii/', to: "noticias#fii"
 
   resources :sessions, only: [:new, :create, :destroy]
-  get 'signup', to: 'users#new', as: 'signup'
+
+  get 'signup', to: 'sessions#new', as: 'signup'
+
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
