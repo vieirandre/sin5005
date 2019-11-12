@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def new
-    
+
   end
   def create
     user = Usuario.find_by_email(params[:email])
