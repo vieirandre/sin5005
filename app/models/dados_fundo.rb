@@ -7,8 +7,10 @@ class DadosFundo < ApplicationRecord
 		arquivo.abrirArquivo
 		arquivo.aplicarNokogiriSite
 		documento = arquivo.getDocumento
-		if documento
-			links = documento.css('a[title="Download do Documento"]').map { |link| link['href'] }
+		links = documento.css('a[title="Download do Documento"]').map { |link| link['href'] }
+		if links.length < 1
+			return "Fundo não foi achado"
+		elsif documento
 			return links
 		else
 			return documento.getErroTraduzido || documento.getErro
@@ -41,13 +43,12 @@ class DadosFundo < ApplicationRecord
 	def self.gerarDadosFundo(cnpj)
 		linksComRendimento = pegarLinksDoXml(cnpj)
 		dadosFundo = []
-		linksComRendimento.each do |caminhoArquivo|
-			item = gerarItemDadoFundo(gerarDocumentoDadoFundo(caminhoArquivo))
-			if item.is_a?(Hash)
-				dadosFundo.push(item)
-			else
-				puts item
+		if linksComRendimento.is_a?(Array)
+			linksComRendimento.each do |caminhoArquivo|
+				dadosFundo.push(gerarItemDadoFundo(gerarDocumentoDadoFundo(caminhoArquivo)))
 			end
+		else
+			puts linksComRendimento
 		end
 		return dadosFundo
 	end

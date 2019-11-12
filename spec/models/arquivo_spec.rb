@@ -22,12 +22,17 @@ RSpec.describe Arquivo do
 			arquivo = Arquivo.new(url)
 			expect(arquivo.getErroTraduzido).to be_eql(false)
 		end
+		it "sets an url to erroTraduzido" do
+			url = "https://www.w3schools.com/xml/note.xml"
+			arquivo = Arquivo.new(url)
+			expect(arquivo.instance_variable_get(:@erroTraduzido)).to be_eql(false)
+		end
 	end
-	{
+	[
 		'https://www.w3schools.com/xml/note.xml',
-		'https://webscraper.io/test-sites/tables',
-	}.each do |arg, result|
-		it "Applying #{arg} in the caminhoArquivo expect to set arquivoAberto to be different then #{result}" do
+		'https://webscraper.io/test-sites/tables'
+	].each do |arg|
+		it "Applying #{arg} in the caminhoArquivo expect to set arquivoAberto to be External Link" do
 			arquivo = Arquivo.new(arg)
 			allow(arquivo).to receive(:open).and_return('External Link')
 			arquivo.abrirArquivo
