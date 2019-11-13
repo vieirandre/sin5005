@@ -1,14 +1,20 @@
-<p id="notice"><%= notice %></p>
+<div class="main">
+	<div class="row">
+		<div class="col s12">
+			<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @usuario.email %>
-</p>
+			<p>
+				<strong>Email:</strong>
+				<%= @usuario.email %>
+			</p>
 
-<p>
-  <strong>Nome:</strong>
-  <%= @usuario.nome %>
-</p>
+			<p>
+				<strong>Nome:</strong>
+				<%= @usuario.nome %>
+			</p>
 
-<%= link_to 'Edit', edit_usuario_path(@usuario) %> |
-<%= link_to 'Back', usuarios_path %>
+			<%= link_to 'Edit', edit_usuario_path(@usuario) %> |
+			<%= link_to 'Back', usuarios_path %>
+		</div>
+	</div>
+</div>
