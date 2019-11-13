@@ -27,7 +27,9 @@ class FundosController < ApplicationController
   end
 
   def popula
-    Fundo.popula
+    limite = JSON.parse(request.raw_post)['limite'].to_i
+
+    Fundo.popula(limite)
     index
   end
 
