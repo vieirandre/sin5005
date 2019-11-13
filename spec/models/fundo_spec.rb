@@ -23,4 +23,12 @@ RSpec.describe Fundo, type: :model do
     end
   end
 
+  describe 'popula banco com os fundos' do
+    it 'recupera fundos e salva no banco' do
+      Fundo.popula(3)
+      fundos = Fundo.all
+      expect(fundos.length).to eq(3)
+    end
+  end
+
 end
