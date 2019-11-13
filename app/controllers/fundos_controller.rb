@@ -34,7 +34,11 @@ class FundosController < ApplicationController
   def integra
     ticker = params[:ticker].upcase
     traz_fundo(ticker)
+
     @lista_noticias = Noticias.lista(ticker)
+
+    cnpj = @fundo.cnpj.tr('.', '').tr('/', '').tr('-', '')
+    @rendimentos = DadosFundo.pega_rendimentos(cnpj)
   end
 
   private
