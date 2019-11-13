@@ -4,22 +4,23 @@ RSpec.describe "usuarios/index", type: :view do
   before(:each) do
     assign(:usuarios, [
       Usuario.create!(
-        :login => "Login",
-        :senha => "Senha",
-        :nome => "Nome"
+        :email => "Email",
+        :nome => "Nome",
+        :password => "senha"
       ),
       Usuario.create!(
-        :login => "Login",
-        :senha => "Senha",
-        :nome => "Nome"
+        :email => "Email2",
+        :nome => "Nome",
+        :password => "senha2"
       )
     ])
   end
 
   it "renders a list of usuarios" do
     render
-    assert_select "tr>td", :text => "Login".to_s, :count => 2
-    assert_select "tr>td", :text => "Senha".to_s, :count => 2
+    assert_select "tr>td", :text => "Email".to_s, :count => 1
+    assert_select "tr>td", :text => "Email2".to_s, :count => 1
     assert_select "tr>td", :text => "Nome".to_s, :count => 2
+    
   end
 end
