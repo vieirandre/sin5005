@@ -25,3 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function acionarForm(idForm){
 	document.getElementById(idForm).submit();
 }
+
+function irParaRota(search){
+	document.getElementById("pesquisarAtivo").action = "/integra/"+search;
+}
