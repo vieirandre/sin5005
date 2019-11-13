@@ -44,7 +44,7 @@ class DadosFundo < ApplicationRecord
 		linksComRendimento = pegarLinksDoXml(cnpj)
 		dadosFundo = []
 		if linksComRendimento.is_a?(Array)
-			linksComRendimento.each do |caminhoArquivo|
+			linksComRendimento.first(10).each do |caminhoArquivo|
 				dadosFundo.push(gerarItemDadoFundo(gerarDocumentoDadoFundo(caminhoArquivo)))
 			end
 		else
