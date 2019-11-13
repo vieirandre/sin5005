@@ -2,15 +2,12 @@
 <p>Find me in app/views/noticia/fii.html.erb</p>
  -->
 
-<table>
+<table id="news">
   <tbody>
   	<% @lista_noticias.map { |top| %>
   	    <tr>
 	        <td> <a href="<%= top.link %>">  <%= top.titulo %> </a></td>
-
 	    </tr>
 	<% } %>
-
-
   </tbody>
 </table>
