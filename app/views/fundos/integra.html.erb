@@ -1,42 +1,137 @@
-<table>
-  <tr>
-    <th>Ticker</th>
-    <th>Nome</th>
-    <th>Preço</th>
-    <th>CNPJ</th>
-    <th>Segmento</th>
-    <th>Taxa de administração</th>
-    <th>Data de constituição</th>
-    <th>Número de cotas emitidas</th>
-    <th>Patrimônio inicial</th>
-    <th>Valor inicial da cota</th>
-    <th>Prazo</th>
-    <th>Tipo de gestão</th>
-  </tr>
-    <tr>
-      <td><%= @fundo.ticker %></td>
-      <td><%= @fundo.nome %></td>
-      <td><%= @fundo.preco %></td>
-      <td><%= @fundo.cnpj %></td>
-      <td><%= @fundo.segmento %></td>
-      <td><%= @fundo.tx_adm %></td>
-      <td><%= @fundo.data_const %></td>
-      <td><%= @fundo.num_cotas_emitidas %></td>
-      <td><%= @fundo.patrimonio_inicial %></td>
-      <td><%= @fundo.valor_inicial_cota %></td>
-      <td><%= @fundo.prazo %></td>
-      <td><%= @fundo.tipo_gestao %></td>
-    </tr>
-</table>
-<table>
-  <tr>
-    <th>Notícias relevantes</th>
-  </tr>
-  <tbody>
-  <% @lista_noticias.map { |top| %>
-    <tr>
-      <td> <a href="<%= top.link %>">  <%= top.titulo %> </a></td>
-    </tr>
-  <% } %>
-  </tbody>
-</table>
+<div class="main">
+  <div class="row">
+    <div class="col s12">
+      <h3 class="title center-align"><%= @fundo.nome %> (<%= @fundo.ticker %>)</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s4">
+      <div class="card white">
+        <div class="light-blue accent-3 white-text">
+          <div class="card-content">
+            <div class="card-title center-align">
+              Segmento de atuação
+            </div>
+          </div>
+        </div>
+        <div class="card-content center-align">
+          <p>
+            <h4>
+              <%= @fundo.segmento %>
+            </h4>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card white">
+        <div class="teal accent-4 white-text">
+          <div class="card-content">
+            <div class="card-title center-align">Preço do ativo atualmente</div>
+          </div>
+        </div>
+        <div class="card-content center-align">
+          <p>
+            <h4>
+              R$<%= @fundo.preco %>
+            </h4>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card white">
+        <div class="deep-orange darken-4 white-text">
+          <div class="card-content">
+            <div class="card-title center-align">Taxa de Administração</div>
+          </div>
+        </div>
+        <div class="card-content center-align">
+          <p>
+            <h4>
+              <%= @fundo.tx_adm %>
+            </h4>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s7">
+      <div class="card small">
+        <div class="grey lighten-1 white-text">
+          <div class="card-content">
+            <div class="card-title center-align">Histórico</div>
+          </div>
+        </div>
+        <div class="card-content">
+          <table>
+            <thead>
+              <tr>
+                <th class="center-align">Data Constituição</th>
+                <th class="center-align">Nº de cotas emitidas</th>
+                <th class="center-align">Patrimônio inicial</th>
+                <th class="center-align">Valor inicial da cota</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="center-align"><%= @fundo.data_const %></td>
+                <td class="center-align"><%= @fundo.num_cotas_emitidas %></td>
+                <td class="center-align"><%= @fundo.patrimonio_inicial %></td>
+                <td class="center-align"><%= @fundo.valor_inicial_cota %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col s5">
+      <div class="card small">
+        <div class="indigo lighten-2 white-text">
+          <div class="card-content">
+            <div class="card-title center-align">Informações</div>
+          </div>
+        </div>
+        <div class="card-content">
+          <table>
+            <thead>
+              <tr>
+                <th class="center-align">CNPJ</th>
+                <th class="center-align">Prazo</th>
+                <th class="center-align">Tipo de gestão</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="center-align"><%= @fundo.cnpj %></td>
+                <td class="center-align"><%= @fundo.prazo %></td>
+                <td class="center-align"><%= @fundo.tipo_gestao %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s7"></div>
+    <div class="col s5">
+      <table>
+        <tr>
+          <th>Notícias relevantes</th>
+        </tr>
+        <tbody>
+          <% @lista_noticias.map { |top| %>
+          <tr>
+            <td> <a href="<%= top.link %>">  <%= top.titulo %> </a></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+</div>
