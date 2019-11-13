@@ -5,9 +5,9 @@ RSpec.describe "dados_fundos/new", type: :view do
     assign(:dados_fundo, DadosFundo.new(
       :codigoAtivo => "MyString",
       :rendimento => "MyString",
-      :diaDistribuicao => "MyString",
-      :precoAtivoNoFechamento => "MyString",
-      :diaFechamentoDoPreco => "MyString"
+      :dataBase => "MyString",
+      :diaPagamento => "MyString",
+      :cnpj => "MyString"
     ))
   end
 
@@ -20,11 +20,11 @@ RSpec.describe "dados_fundos/new", type: :view do
 
       assert_select "input[name=?]", "dados_fundo[rendimento]"
 
-      assert_select "input[name=?]", "dados_fundo[diaDistribuicao]"
+      assert_select "input[name=?]", "dados_fundo[dataBase]"
 
-      assert_select "input[name=?]", "dados_fundo[precoAtivoNoFechamento]"
+      assert_select "input[name=?]", "dados_fundo[diaPagamento]"
 
-      assert_select "input[name=?]", "dados_fundo[diaFechamentoDoPreco]"
+      assert_select "input[name=?]", "dados_fundo[cnpj]"
     end
   end
 end

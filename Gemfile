@@ -68,3 +68,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'httparty'
 gem 'materialize-sass', '~> 1.0.0'
 gem 'nokogiri', '~> 1.8', '>= 1.8.1'
+
+# Use ActiveModel has_secure_password
+gem 'bcrypt', '~> 3.1.7'

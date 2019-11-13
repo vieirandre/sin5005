@@ -1,9 +1,11 @@
 <div class="main">
+
+
 	<div class="row">
-		<form id="pesquisarAtivo" action="/dados_fundos">
+		<form id="pesquisarAtivo" action="/integra">
 			<div class="col s2"></div>
 			<div class="col s8 input-field">
-				<input id="txtAtivoParaPesquisar" name="codigo" placeholder="Pesquise pelo código do ativo (ex. KNRI11)">
+				<input id="txtAtivoParaPesquisar" placeholder="Pesquise pelo código do ativo (ex. KNRI11)" onkeyup="irParaRota(this.value)" onchange="irParaRota(this.value)">
 			</div>
 			<div class="col s1 valign-wrapper input-field">
 				<a id="btnPesquisarAtivo" class="btn-floating btn-medium waves-effect waves-light red" onclick="acionarForm('pesquisarAtivo')">
@@ -15,50 +17,62 @@
 	</div>
 	<div class="row">
 		<div class="col s3">
-			<div class="card blue lighten-1">
+			<div id="tile-knri11" class="card blue lighten-1">
 				<div class="card-content white-text">
-					<span class="card-title">Card Title</span>
-					<p>I am a very simple card. I am good at containing small</p>
+					<span class="card-title">
+						KNRI11
+					</span>
+					<p>Verifique mais sobre o fundo clicando abaixo</p>
 				</div>
-				<div class="card-action blue-grey darken-1">
-					<a href="#">Link</a>
-					<a href="#">Link</a>
+				<div class="card-action blue-grey darken-1 center-align">
+					<a class="center-align" href="integra/knri11">
+						Veja mais
+					</a>
 				</div>
 			</div>
 		</div>
 		<div class="col s3">
-			<div class="card red lighten-3">
+			<div id="tile-famb11b" class="card red lighten-3">
 				<div class="card-content white-text">
-					<span class="card-title">Card Title</span>
-					<p>I am a very simple card. I am good at containing small</p>
+					<span class="card-title">
+						FAMB11B
+					</span>
+					<p>Verifique mais sobre o fundo clicando abaixo</p>
 				</div>
-				<div class="card-action blue-grey darken-1">
-					<a href="#">Link</a>
-					<a href="#">Link</a>
+				<div class="card-action blue-grey darken-1 center-align">
+					<a class="center-align" href="integra/famb11b">
+						Veja mais
+					</a>
 				</div>
 			</div>
 		</div>
 		<div class="col s3">
-			<div class="card orange lighten-1">
+			<div id="tile-abcp11" class="card orange lighten-1">
 				<div class="card-content white-text">
-					<span class="card-title">Card Title</span>
-					<p>I am a very simple card. I am good at containing small</p>
+					<span class="card-title">
+						ABCP11
+					</span>
+					<p>Verifique mais sobre o fundo clicando abaixo</p>
 				</div>
-				<div class="card-action blue-grey darken-1">
-					<a href="#">Link</a>
-					<a href="#">Link</a>
+				<div class="card-action blue-grey darken-1 center-align">
+					<a class="center-align" href="integra/abcp11">
+						Veja mais
+					</a>
 				</div>
 			</div>
 		</div>
 		<div class="col s3">
-			<div class="card green lighten-2">
+			<div id="tile-rbds11" class="card green lighten-2">
 				<div class="card-content white-text">
-					<span class="card-title">Card Title</span>
-					<p>I am a very simple card. I am good at containing small</p>
+					<span class="card-title">
+						RBDS11
+					</span>
+					<p>Verifique mais sobre o fundo clicando abaixo</p>
 				</div>
-				<div class="card-action blue-grey darken-1">
-					<a href="#">Link</a>
-					<a href="#">Link</a>
+				<div class="card-action blue-grey darken-1 center-align">
+					<a class="center-align" href="integra/rbds11">
+						Veja mais
+					</a>
 				</div>
 			</div>
 		</div>
@@ -66,119 +80,56 @@
 
 	<div class="row">
 		<div class="col s4">
-			<div class="card white">
+			<div id="tile-rbcb11" class="card white">
 				<div class="teal darken-1 white-text">
 					<div class="card-content">
-						<div class="card-title">Card Title</div>
+						<div class="card-title">RBCB11</div>
 					</div>
 				</div>
 				<div class="card-content">
-					<p>I am a very simple card. I am good at containing small</p>
+					<p>Esse fundo tem destaque.</p>
+					<p>Verifique mais sobre o fundo clicando abaixo</p>
 				</div>
-				<div class="card-action blue-grey darken-1">
-					<a href="#">Link</a>
-					<a href="#">Link</a>
+				<div class="card-action blue-grey darken-1 center-align">
+					<a class="center-align" href="integra/rbcb11">
+						Veja mais
+					</a>
 				</div>
 			</div>
 		</div>
-		<div class="col s4">
+		<div id="tile-figs11" class="col s4">
 			<div class="card white">
 				<div class="orange darken-1 white-text">
 					<div class="card-content">
-						<div class="card-title">Card Title</div>
+						<div class="card-title">ABCP11</div>
 					</div>
 				</div>
 				<div class="card-content">
-					<p>I am a very simple card. I am good at containing small</p>
+					<p>Esse fundo tem destaque.</p>
+					<p>Verifique mais sobre o fundo clicando abaixo</p>
 				</div>
-				<div class="card-action blue-grey darken-1">
-					<a href="#">Link</a>
-					<a href="#">Link</a>
+				<div class="card-action blue-grey darken-1 center-align">
+					<a class="center-align" href="integra/abcp11">
+						Veja mais
+					</a>
 				</div>
 			</div>
 		</div>
 		<div class="col s4">
-			<div class="card white">
+			<div id="tile-brcr11" class="card white">
 				<div class="grey darken-1 white-text">
 					<div class="card-content">
-						<div class="card-title">Card Title</div>
+						<div class="card-title">BRCR11</div>
 					</div>
 				</div>
 				<div class="card-content">
-					<p>I am a very simple card. I am good at containing small</p>
+					<p>Esse fundo tem destaque.</p>
+					<p>Verifique mais sobre o fundo clicando abaixo</p>
 				</div>
-				<div class="card-action blue-grey darken-1">
-					<a href="#">Link</a>
-					<a href="#">Link</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col s6">
-			<div class="card">
-				<div class="card-content">
-					<table>
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Item Name</th>
-								<th>Item Price</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							<tr>
-								<td>Alvin</td>
-								<td>Eclair</td>
-								<td>$0.87</td>
-							</tr>
-							<tr>
-								<td>Alan</td>
-								<td>Jellybean</td>
-								<td>$3.76</td>
-							</tr>
-							<tr>
-								<td>Jonathan</td>
-								<td>Lollipop</td>
-								<td>$7.00</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="col s6">
-			<div class="card">
-				<div class="card-content">
-					<table>
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Item Name</th>
-								<th>Item Price</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							<tr>
-								<td>Alvin</td>
-								<td>Eclair</td>
-								<td>$0.87</td>
-							</tr>
-							<tr>
-								<td>Alan</td>
-								<td>Jellybean</td>
-								<td>$3.76</td>
-							</tr>
-							<tr>
-								<td>Jonathan</td>
-								<td>Lollipop</td>
-								<td>$7.00</td>
-							</tr>
-						</tbody>
-					</table>
+				<div class="card-action blue-grey darken-1 center-align">
+					<a class="center-align" href="integra/FIGS11">
+						Veja mais
+					</a>
 				</div>
 			</div>
 		</div>

@@ -15,12 +15,7 @@ class FundosController < ApplicationController
 
   def recupera
     ticker = params[:ticker].upcase
-    @fundo = Fundo.find_by_ticker(ticker)
-
-    if @fundo.nil?
-      Fundo.scrap(ticker)
-      @fundo = Fundo.find_by_ticker(ticker)
-    end
+    traz_fundo(ticker)
 
     if !@fundo.nil?
       render json: { status: 'Sucesso', message: 'Fundo carregado', data: @fundo },
@@ -34,5 +29,25 @@ class FundosController < ApplicationController
   def popula
     Fundo.popula
     index
+  end
+
+  def integra
+    ticker = params[:ticker].upcase
+    traz_fundo(ticker)
+
+    @lista_noticias = Noticias.lista(ticker)
+
+    cnpj = @fundo.cnpj.tr('.', '').tr('/', '').tr('-', '')
+    @rendimentos = DadosFundo.pega_rendimentos(cnpj)
+  end
+
+  private
+
+  def traz_fundo(ticker)
+    @fundo = Fundo.find_by_ticker(ticker)
+    return unless @fundo.nil?
+
+    Fundo.scrap(ticker)
+    @fundo = Fundo.find_by_ticker(ticker)
   end
 end
