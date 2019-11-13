@@ -24,3 +24,11 @@ Então('deve ser exibida a página com as informações integradas do {string}')
   expect(page).to have_content('Informações')
   expect(page).to have_content('Notícias relevantes')
 end
+
+Quando('eu inserir o {string} na barra de busca') do |string|
+  fill_in('txtAtivoParaPesquisar', with: string)
+end
+
+Quando('invocar a busca') do
+  find('#btnPesquisarAtivo').click
+end
