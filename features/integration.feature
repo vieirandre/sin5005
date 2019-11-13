@@ -13,7 +13,7 @@ Funcionalidade: apresentar página com todas as informações dos fundos
     Exemplos:
     | fundo |
     | "knri11" |
-    | "figs11" |
+    | "abcp11" |
 
   Esquema do Cenário: exibir página de integração de informações a partir da busca
     Dado que eu estou na página inicial
@@ -23,4 +23,4 @@ Funcionalidade: apresentar página com todas as informações dos fundos
     Exemplos:
       | fundo |
       | "knri11" |
-      | "figs11" |
+      | "abcp11" |
