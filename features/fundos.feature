@@ -1,7 +1,7 @@
 #language:pt
 @scrap_fundos
 Funcionalidade: recuperar indicadores de fundos
-  Para prover informações de fundos ao usuário
+  Para prover indicadores de fundos ao usuário
   Como desenvolvedor do sistema
   Eu quero recuperar as informações via scrap de sites do ramo
 
