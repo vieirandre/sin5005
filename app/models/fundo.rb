@@ -18,7 +18,7 @@ class Fundo < ApplicationRecord
     salva(fundo)
   end
 
-  def self.popula
+  def self.popula(limite)
     @url_tickers_main = 'https://www.fundsexplorer.com.br/funds/'
     @url_tickers_alt = 'https://fiis.com.br/lista-de-fundos-imobiliarios/'
 
@@ -30,7 +30,9 @@ class Fundo < ApplicationRecord
     pagina_parseada = Nokogiri::HTML(pagina)
     tickers = extrai_tickers(pagina_parseada)
 
-    tickers.each do |ticker|
+    limite = tickers.count if limite.zero?
+
+    tickers.first(limite).each do |ticker|
       scrap(ticker) if Fundo.find_by_ticker(ticker).nil?
     end
   end
