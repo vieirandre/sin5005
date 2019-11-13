@@ -12,43 +12,56 @@
 
 ActiveRecord::Schema.define(version: 2019_11_11_030328) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
 
-  create_table "dados_fundos", force: :cascade do |t|
-    t.string "codigoAtivo"
-    t.string "rendimento"
-    t.string "diaDistribuicao"
-    t.string "precoAtivoNoFechamento"
-    t.string "diaFechamentoDoPreco"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+    # These are extensions that must be enabled in order to support this database
+    enable_extension "plpgsql"
 
-  create_table "fundos", force: :cascade do |t|
-    t.string "ticker"
-    t.string "preco"
-    t.string "nome"
-    t.string "cnpj"
-    t.string "segmento"
-    t.string "tx_adm"
-    t.string "data_const"
-    t.string "num_cotas_emitidas"
-    t.string "patrimonio_inicial"
-    t.string "valor_inicial_cota"
-    t.string "prazo"
-    t.string "tipo_gestao"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+    create_table "dados_fundos", force: :cascade do |t|
+        t.string "codigoAtivo"
+        t.string "rendimento"
+        t.datetime "created_at", null: false
+        t.datetime "updated_at", null: false
+        t.string "dataBase"
+        t.string "diaPagamento"
+        t.string "cnpj"
+    end
 
-  create_table "usuarios", force: :cascade do |t|
-    t.string "email"
-    t.string "nome"
-    t.string "password_digest"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_usuarios_on_email", unique: true
-  end
+    create_table "fundos", force: :cascade do |t|
+        t.string "ticker"
+        t.string "preco"
+        t.string "nome"
+        t.string "cnpj"
+        t.string "segmento"
+        t.string "tx_adm"
+        t.string "data_const"
+        t.string "num_cotas_emitidas"
+        t.string "patrimonio_inicial"
+        t.string "valor_inicial_cota"
+        t.string "prazo"
+        t.string "tipo_gestao"
+        t.datetime "created_at", null: false
+        t.datetime "updated_at", null: false
+    end
+
+    create_table "usuarios", force: :cascade do |t|
+        t.string "email"
+        t.string "nome"
+        t.string "password_digest"
+        t.datetime "created_at", null: false
+        t.datetime "updated_at", null: false
+        t.index ["email"], name: "index_usuarios_on_email", unique: true
+    end
+
+    create_table "tiles", force: :cascade do |t|
+        t.bigint "usuarios_id"
+        t.bigint "fundos_id"
+        t.datetime "created_at", null: false
+        t.datetime "updated_at", null: false
+        t.index ["fundos_id"], name: "index_tiles_on_fundos_id"
+        t.index ["usuarios_id"], name: "index_tiles_on_usuarios_id"
+    end
+
+    add_foreign_key "tiles", "fundos", column: "fundos_id"
+    add_foreign_key "tiles", "usuarios", column: "usuarios_id"
 
 end
