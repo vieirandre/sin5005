@@ -3,77 +3,65 @@ class Noticias < ApplicationRecord
   require 'nokogiri'
   require 'open-uri'
 
-	class Noticia
-		attr_accessor :titulo
-  		attr_accessor :link
-  		attr_accessor :descricao
+  class Noticia
+    attr_accessor :titulo
+    attr_accessor :link
+    attr_accessor :descricao
 
-		def initialize(titulo, link, descricao)
-    		@titulo = titulo
-    		@link = link
-    		@descricao = descricao
-  		end  		
+    def initialize(titulo, link, descricao)
+        @titulo = titulo
+        @link = link
+        @descricao = descricao
+      end
 
-  	end
+    end
 
-	def self.pesquisa(termo)
-		url = "https://news.google.com/rss/search?q=" + termo + "&hl=pt-BR&gl=BR&ceid=BR:pt-419"
-		
-		
-		return Nokogiri::XML(open(url)) 
-	end
+  def self.pesquisa(termo)
+    url = 'https://news.google.com/rss/search?q=' + termo + '&hl=pt-BR&gl=BR&ceid=BR:pt-419'
 
-	def self.extrairinformacoes(fii_xml)
+    Nokogiri::XML(open(url))
+  end
 
-		@lista_noticias = []
+  def self.extrairinformacoes(fii_xml)
 
-		titulo = ""
-		link = ""
-		descricao = ""	
+    @lista_noticias = []
 
-		fii_xml.xpath("//item/*").each{|e|
+    titulo = ''
+    link = ''
+    descricao = ''
 
-			if e.name == 'title'
-				titulo = e.text
-			end
-			
-			if e.name == 'link'
-				link = e.text
-			end
-			
-			if e.name == 'description'
-				descricao = e.text
-				@lista_noticias << Noticia.new(titulo,link,descricao)
-			end	
+    fii_xml.xpath('//item/*').each{|e|
 
-		} 
+      if e.name == 'title'
+        titulo = e.text
+      end
 
-		return @lista_noticias
-	end
+      if e.name == 'link'
+        link = e.text
+      end
 
-  	def self.lista(fii)
+      if e.name == 'description'
+        descricao = e.text
+        @lista_noticias << Noticia.new(titulo,link,descricao)
+      end
 
-  			@lista_noticias = []
+    }
 
-			#url = "https://news.google.com/rss/search?q=" + URI.escape(@fii) + "&hl=pt-BR&gl=BR&ceid=BR:pt-419"
-			fii_xml = pesquisa(fii)
+    @lista_noticias
+  end
 
-			#puts fii_xml.xpath("//item")
+  def self.lista(fii)
+    return if fii.blank?
 
-			#puts fii_xml.xpath("//item").class
+    @lista_noticias = []
 
-			#puts fii_xml.xpath("//item").kind_of?(Enumerable)
+    fii_xml = pesquisa(fii)
 
-			#@fii_xml = fii_xml
+    @lista_noticias = extrairinformacoes(fii_xml)
 
-			@lista_noticias = extrairinformacoes(fii_xml) 
-			
 
-			return @lista_noticias
+    @lista_noticias
 
-  	end
-
-	
-
+   end
 
 end
