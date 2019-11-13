@@ -5,9 +5,9 @@ RSpec.describe "dados_fundos/show", type: :view do
     @dados_fundo = assign(:dados_fundo, DadosFundo.create!(
       :codigoAtivo => "Codigo Ativo",
       :rendimento => "Rendimento",
-      :diaDistribuicao => "Dia Distribuicao",
-      :precoAtivoNoFechamento => "Preco Ativo No Fechamento",
-      :diaFechamentoDoPreco => "Dia Fechamento Do Preco"
+      :dataBase => "Data Base",
+      :diaPagamento => "Dia Pagamento",
+      :cnpj => "CNPJ"
     ))
   end
 
@@ -15,8 +15,8 @@ RSpec.describe "dados_fundos/show", type: :view do
     render
     expect(rendered).to match(/Codigo Ativo/)
     expect(rendered).to match(/Rendimento/)
-    expect(rendered).to match(/Dia Distribuicao/)
-    expect(rendered).to match(/Preco Ativo No Fechamento/)
-    expect(rendered).to match(/Dia Fechamento Do Preco/)
+    expect(rendered).to match(/Data Base/)
+    expect(rendered).to match(/Dia Pagamento/)
+    expect(rendered).to match(/CNPJ/)
   end
 end
