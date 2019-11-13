@@ -1,5 +1,5 @@
 #language:pt
-@scrap_fundos
+@fundos
 Funcionalidade: recuperar indicadores de fundos
   Para prover indicadores de fundos ao usuário
   Como desenvolvedor do sistema
